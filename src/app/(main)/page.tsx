@@ -1,13 +1,11 @@
 'use client'
 
-import { MapPin, Calendar, Settings2, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-
 import { useState } from 'react'
 
-import { GuestsModalTrigger } from './_components/guests-modal-trigger'
-import { ConfirmTripModalTrigger } from './_components/confirm-trip-modal-trigger'
+import { DestinationAndDateStep } from './_components/destination-and-date-step'
+import { InviteGuestsStep } from './_components/invite-guests-step'
 
 export default function Home() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
@@ -31,55 +29,13 @@ export default function Home() {
         </div>
 
         <div className="space-y-4">
-          <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
-            <div className="flex items-center gap-2 flex-1">
-              <MapPin className="size-5 text-zinc-400" />
-              <input
-                type="text"
-                disabled={isGuestsInputOpen}
-                placeholder="Para onde você vai?"
-                className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="size-5 text-zinc-400" />
-              <input
-                type="text"
-                disabled={isGuestsInputOpen}
-                placeholder="Quando?"
-                className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none"
-              />
-            </div>
-            <div className="w-px h-6 bg-zinc-800" />
+          <DestinationAndDateStep
+            isGuestsInputOpen={isGuestsInputOpen}
+            onOpenGuestsInput={openGuestsInput}
+            onCloseGuestsInput={closeGuestsInput}
+          />
 
-            {isGuestsInputOpen ? (
-              <button
-                onClick={closeGuestsInput}
-                className="bg-zinc-800 text-zinc-200 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-zinc-700"
-              >
-                Alterar local/data
-                <Settings2 className="size-5" />
-              </button>
-            ) : (
-              <button
-                onClick={openGuestsInput}
-                className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400"
-              >
-                Continuar
-                <ArrowRight className="size-5" />
-              </button>
-            )}
-          </div>
-
-          {isGuestsInputOpen && (
-            <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
-              <GuestsModalTrigger />
-
-              <div className="w-px h-6 bg-zinc-800" />
-
-              <ConfirmTripModalTrigger />
-            </div>
-          )}
+          {isGuestsInputOpen && <InviteGuestsStep />}
         </div>
 
         <p className="text-zinc-500">

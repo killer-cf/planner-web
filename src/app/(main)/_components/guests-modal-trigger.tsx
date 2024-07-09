@@ -1,5 +1,8 @@
 'use client'
 
+import { AtSign, Plus, UserRoundPlus, X } from 'lucide-react'
+import { FormEvent, useState } from 'react'
+
 import {
   Dialog,
   DialogContent,
@@ -8,8 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { AtSign, Plus, UserRoundPlus, X } from 'lucide-react'
-import { FormEvent, useState } from 'react'
 
 export function GuestsModalTrigger() {
   const [emailsToInvite, setEmailsToInvite] = useState([

@@ -1,5 +1,8 @@
 'use client'
 
+import { ArrowRight, Mail, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
 import {
   Dialog,
   DialogContent,
@@ -8,9 +11,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { ArrowRight, User, Mail } from 'lucide-react'
 
 export function ConfirmTripModalTrigger() {
+  const router = useRouter()
+
+  function createTrip() {
+    router.push('/trips/123')
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -58,6 +66,7 @@ export function ConfirmTripModalTrigger() {
 
           <button
             type="submit"
+            onClick={createTrip}
             className="bg-lime-300 w-full justify-center text-lime-950 rounded-lg px-5 h-11 font-medium flex items-center gap-2 hover:bg-lime-400"
           >
             Confirmar criação da viagem
