@@ -2,6 +2,7 @@
 
 import { Calendar, Plus, Tag } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -15,10 +16,10 @@ export function CreateActivityModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400">
+        <Button>
           <Plus className="size-5" />
           Cadastrar atividade
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="w-[640px] rounded-xl shadow-shape bg-zinc-900 space-y-5">
         <DialogHeader>

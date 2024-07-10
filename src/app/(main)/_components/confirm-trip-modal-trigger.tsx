@@ -3,6 +3,7 @@
 import { ArrowRight, Mail, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -22,10 +23,10 @@ export function ConfirmTripModalTrigger() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400">
+        <Button>
           Confirmar viagem
           <ArrowRight className="size-5" />
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="w-[640px] shadow-shape space-y-3">
         <DialogHeader>
@@ -64,13 +65,9 @@ export function ConfirmTripModalTrigger() {
             />
           </div>
 
-          <button
-            type="submit"
-            onClick={createTrip}
-            className="bg-lime-300 w-full justify-center text-lime-950 rounded-lg px-5 h-11 font-medium flex items-center gap-2 hover:bg-lime-400"
-          >
+          <Button type="submit" size={'full'} onClick={createTrip}>
             Confirmar criação da viagem
-          </button>
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
