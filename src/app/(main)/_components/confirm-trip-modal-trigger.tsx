@@ -1,7 +1,10 @@
 'use client'
 
+import { format, isSameMonth } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { ArrowRight, Mail, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useCallback } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -12,9 +15,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useTripStore } from '@/stores/trip'
 
 export function ConfirmTripModalTrigger() {
   const router = useRouter()
+
+  const { destination, endsAt, startsAt } = useTripStore((state) => ({
+    destination: state.destination,
+    endsAt: state.endsAt,
+    startsAt: state.startsAt,
+  }))
+
+  const formatDateRange = useCallback((startDate: Date, endDate: Date) => {
+    if (isSameMonth(startDate, endDate)) {
+      if (format(startDate, 'd') === format(endDate, 'd')) {
+        return `${format(startDate, 'd')} de ${format(startDate, 'MMMM', { locale: ptBR })} de ${format(startDate, 'yyyy')}`
+      }
+      return `${format(startDate, 'd')} a ${format(endDate, 'd')} de ${format(startDate, 'MMMM', { locale: ptBR })} de ${format(startDate, 'yyyy')}`
+    } else {
+      return `${format(startDate, 'd')} de ${format(startDate, 'MMMM')} a ${format(endDate, 'd')} de ${format(endDate, 'MMMM', { locale: ptBR })} de ${format(endDate, 'yyyy')}`
+    }
+  }, [])
 
   function createTrip() {
     router.push('/trips/123')
@@ -33,12 +54,10 @@ export function ConfirmTripModalTrigger() {
           <DialogTitle>Confirmar criação de viagem</DialogTitle>
           <DialogDescription>
             Para concluir a criação da viagem para{' '}
-            <span className="font-semibold text-zinc-100">
-              Florianópolis, Brasil
-            </span>{' '}
+            <span className="font-semibold text-zinc-100">{destination}</span>{' '}
             nas datas de{' '}
             <span className="font-semibold text-zinc-100">
-              16 a 27 de Agosto de 2024
+              {formatDateRange(startsAt, endsAt)}
             </span>{' '}
             preencha seus dados abaixo:
           </DialogDescription>

@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
+import { useTripStore } from '@/stores/trip'
 
 import { DatePickerWithRange } from './date-range-picker'
 
@@ -31,9 +32,18 @@ export function DestinationAndDateStep({
       resolver: zodResolver(destinationAndDateStepSchema),
     })
 
-  function onSubmit(data: DestinationAndDateStepData) {
+  const { setDestinationAndDates } = useTripStore((state) => ({
+    setDestinationAndDates: state.setDestinationAndDates,
+  }))
+
+  function onSubmit({ dateRange, destination }: DestinationAndDateStepData) {
     togleGuestsInput()
-    console.log(data)
+    console.log({ dateRange, destination })
+    setDestinationAndDates({
+      destination,
+      startsAt: dateRange.from,
+      endsAt: dateRange.to,
+    })
   }
 
   return (
