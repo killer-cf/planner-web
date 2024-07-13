@@ -1,7 +1,7 @@
 'use client'
 
 import { AtSign, Plus, UserRoundPlus, X } from 'lucide-react'
-import { FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -12,12 +12,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useTripStore } from '@/stores/trip'
 
 export function GuestsModalTrigger() {
-  const [emailsToInvite, setEmailsToInvite] = useState([
-    'kilder@live.com',
-    'john@acme.com',
-  ])
+  const { setEmailsToInvite, emailsToInvite } = useTripStore((state) => ({
+    setEmailsToInvite: state.setEmailsToInvite,
+    emailsToInvite: state.emailsToInvite,
+  }))
 
   function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

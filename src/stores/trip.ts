@@ -7,13 +7,12 @@ export interface CreateTripState {
   ownerName: string
   ownerEmail: string
   emailsToInvite: string[]
-
-  setOwner: (name: string, email: string) => void
   setDestinationAndDates: (data: {
     destination: string
     startsAt: Date
     endsAt: Date
   }) => void
+  setEmailsToInvite: (emails: string[]) => void
   clearState: () => void
 }
 
@@ -25,10 +24,10 @@ export const useTripStore = create<CreateTripState>((set, get) => ({
   ownerEmail: '',
   emailsToInvite: [],
 
-  setOwner: (name, email) => set({ ownerName: name, ownerEmail: email }),
-
   setDestinationAndDates: ({ destination, startsAt, endsAt }) =>
     set({ destination, startsAt, endsAt }),
+
+  setEmailsToInvite: (emails) => set({ emailsToInvite: emails }),
 
   clearState: () => set({}),
 }))

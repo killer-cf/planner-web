@@ -1,10 +1,13 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { format, isSameMonth } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { ArrowRight, Mail, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -17,6 +20,13 @@ import {
 } from '@/components/ui/dialog'
 import { useTripStore } from '@/stores/trip'
 
+const confirmTripSchema = z.object({
+  ownerName: z.string(),
+  ownerEmail: z.string().email(),
+})
+
+type ConfirmTripData = z.infer<typeof confirmTripSchema>
+
 export function ConfirmTripModalTrigger() {
   const router = useRouter()
 
@@ -25,6 +35,10 @@ export function ConfirmTripModalTrigger() {
     endsAt: state.endsAt,
     startsAt: state.startsAt,
   }))
+
+  const { register, handleSubmit } = useForm<ConfirmTripData>({
+    resolver: zodResolver(confirmTripSchema),
+  })
 
   const formatDateRange = useCallback((startDate: Date, endDate: Date) => {
     if (isSameMonth(startDate, endDate)) {
@@ -37,8 +51,9 @@ export function ConfirmTripModalTrigger() {
     }
   }, [])
 
-  function createTrip() {
-    router.push('/trips/123')
+  function createTrip({ ownerEmail, ownerName }: ConfirmTripData) {
+    console.log(ownerName, ownerEmail)
+    // router.push('/trips/123')
   }
 
   return (
@@ -63,12 +78,12 @@ export function ConfirmTripModalTrigger() {
           </DialogDescription>
         </DialogHeader>
 
-        <form className="space-y-3">
+        <form className="space-y-3" onSubmit={handleSubmit(createTrip)}>
           <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
             <User className="text-zinc-400 size-5" />
             <input
+              {...register('ownerName')}
               type="text"
-              name="name"
               placeholder="Seu nome completo"
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
             />
@@ -77,14 +92,14 @@ export function ConfirmTripModalTrigger() {
           <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
             <Mail className="text-zinc-400 size-5" />
             <input
+              {...register('ownerEmail')}
               type="email"
-              name="email"
               placeholder="Seu e-mail pessoal"
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
             />
           </div>
 
-          <Button type="submit" size={'full'} onClick={createTrip}>
+          <Button type="submit" size={'full'}>
             Confirmar criação da viagem
           </Button>
         </form>
