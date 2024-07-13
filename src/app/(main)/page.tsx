@@ -10,12 +10,8 @@ import { InviteGuestsStep } from './_components/invite-guests-step'
 export default function Home() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
 
-  function openGuestsInput() {
-    setIsGuestsInputOpen(true)
-  }
-
-  function closeGuestsInput() {
-    setIsGuestsInputOpen(false)
+  function togleGuestInput() {
+    setIsGuestsInputOpen(!isGuestsInputOpen)
   }
 
   return (
@@ -31,8 +27,7 @@ export default function Home() {
         <div className="space-y-4">
           <DestinationAndDateStep
             isGuestsInputOpen={isGuestsInputOpen}
-            onOpenGuestsInput={openGuestsInput}
-            onCloseGuestsInput={closeGuestsInput}
+            togleGuestsInput={togleGuestInput}
           />
 
           {isGuestsInputOpen && <InviteGuestsStep />}
