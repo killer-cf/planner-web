@@ -1,6 +1,7 @@
 import { Calendar, MapPin } from 'lucide-react'
 
 import { Trip } from '@/dtos/trip'
+import { formatDateRange } from '@/utils/format-date-range'
 
 import { UpdateTripButton } from './update-trip-button'
 
@@ -23,7 +24,9 @@ export function DestinationAndDateHeader({ trip }: Props) {
       <div className="flex items-center gap-5">
         <div className="flex items-center gap-2">
           <Calendar className="size-5 text-zinc-400" />
-          <span className="text-zinc-100">{trip.starts_at}</span>
+          <span className="text-zinc-100">
+            {formatDateRange(trip.starts_at, trip.ends_at)}
+          </span>
         </div>
 
         <div className="w-px h-6 bg-zinc-800" />

@@ -1,11 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format, isSameMonth } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 import { ArrowRight, Mail, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -21,6 +18,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { useTripStore } from '@/stores/trip'
+import { formatDateRange } from '@/utils/format-date-range'
 
 const confirmTripSchema = z.object({
   ownerName: z.string(),
@@ -44,17 +42,6 @@ export function ConfirmTripModalTrigger() {
   const { register, handleSubmit } = useForm<ConfirmTripData>({
     resolver: zodResolver(confirmTripSchema),
   })
-
-  const formatDateRange = useCallback((startDate: Date, endDate: Date) => {
-    if (isSameMonth(startDate, endDate)) {
-      if (format(startDate, 'd') === format(endDate, 'd')) {
-        return `${format(startDate, 'd')} de ${format(startDate, 'MMMM', { locale: ptBR })} de ${format(startDate, 'yyyy')}`
-      }
-      return `${format(startDate, 'd')} a ${format(endDate, 'd')} de ${format(startDate, 'MMMM', { locale: ptBR })} de ${format(startDate, 'yyyy')}`
-    } else {
-      return `${format(startDate, 'd')} de ${format(startDate, 'MMMM')} a ${format(endDate, 'd')} de ${format(endDate, 'MMMM', { locale: ptBR })} de ${format(endDate, 'yyyy')}`
-    }
-  }, [])
 
   async function onCreateTrip({ ownerEmail, ownerName }: ConfirmTripData) {
     const result = await createTrip({
