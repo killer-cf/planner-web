@@ -26,7 +26,7 @@ export default async function TripPage({ params }: TripPageProps) {
             <CreateActivityModal />
           </div>
 
-          <Activities />
+          <Activities tripId={params.id} />
         </div>
         <div className="w-80 space-y-6">
           <ImportantLinks />
