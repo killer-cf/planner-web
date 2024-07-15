@@ -1,7 +1,13 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Calendar, Plus, Tag } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
+import { createTripActivity } from '@/actions/create-activity'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,9 +18,46 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-export function CreateActivityModal() {
+const createActivitySchema = z.object({
+  title: z.string(),
+  occursAt: z.coerce.date(),
+})
+
+type CreateActivityData = z.infer<typeof createActivitySchema>
+
+interface CreateActivityModalProps {
+  tripId: string
+}
+
+export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<CreateActivityData>({
+    resolver: zodResolver(createActivitySchema),
+  })
+
+  async function handleCreateActivity({ occursAt, title }: CreateActivityData) {
+    const result = await createTripActivity({
+      tripId,
+      occursAt,
+      title,
+    })
+
+    if (result?.serverError) toast.error(result.serverError)
+
+    if (result?.data) {
+      toast.success('Atividade cadastrada com sucesso!')
+      reset()
+      setIsModalOpen(false)
+    }
+  }
+
   return (
-    <Dialog>
+    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
         <Button>
           <Plus className="size-5" />
@@ -29,11 +72,14 @@ export function CreateActivityModal() {
           </DialogDescription>
         </DialogHeader>
 
-        <form className="space-y-3">
+        <form
+          onSubmit={handleSubmit(handleCreateActivity)}
+          className="space-y-3"
+        >
           <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
             <Tag className="text-zinc-400 size-5" />
             <input
-              name="title"
+              {...register('title')}
               placeholder="Qual a atividade?"
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
             />
@@ -42,17 +88,17 @@ export function CreateActivityModal() {
           <div className="h-14 flex-1 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
             <Calendar className="text-zinc-400 size-5" />
             <input
+              {...register('occursAt')}
               type="datetime-local"
-              name="occurs_at"
               placeholder="Data e horário da atividade"
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
             />
           </div>
 
-          <button className="bg-lime-300 text-lime-950 w-full justify-center rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-lime-400">
+          <Button type="submit" size={'full'} disabled={isSubmitting}>
             <Plus className="size-5" />
             Salvar atividade
-          </button>
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

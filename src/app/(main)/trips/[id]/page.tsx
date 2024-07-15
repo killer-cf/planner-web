@@ -23,7 +23,7 @@ export default async function TripPage({ params }: TripPageProps) {
         <div className="flex-1 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-semibold">Atividades</h2>
-            <CreateActivityModal />
+            <CreateActivityModal tripId={params.id} />
           </div>
 
           <Activities tripId={params.id} />

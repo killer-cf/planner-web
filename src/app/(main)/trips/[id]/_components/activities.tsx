@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CircleCheck } from 'lucide-react'
 
@@ -23,11 +23,15 @@ export async function Activities({ tripId }: ActivitiesProps) {
           <div className="flex gap-2 items-baseline">
             <span className="text-xl text-zinc-300 font-semibold">
               Dia{' '}
-              {format(activitiesGroup.date, "dd 'de' LLLL", { locale: ptBR })}
+              {format(parseISO(activitiesGroup.date), "dd 'de' LLLL", {
+                locale: ptBR,
+              })}
             </span>
             <span className="text-xs text-zinc-500">
               {capitalize(
-                format(activitiesGroup.date, 'EEEE', { locale: ptBR }),
+                format(parseISO(activitiesGroup.date), 'EEEE', {
+                  locale: ptBR,
+                }),
               )}
             </span>
           </div>
