@@ -15,7 +15,10 @@ export const getTrip = actionClient
   .action(async ({ parsedInput: { tripId } }) => {
     const res = await api
       .get(`api/v1/trips/${tripId}`, {
-        cache: 'no-cache',
+        next: {
+          revalidate: 60 * 60 * 3,
+          tags: [`trip:${tripId}`],
+        },
       })
       .json<GetTripResponse>()
 
