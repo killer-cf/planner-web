@@ -7,8 +7,10 @@ import { ArrowRight, Mail, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { createTrip } from '@/actions/create-trip'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -30,11 +32,14 @@ type ConfirmTripData = z.infer<typeof confirmTripSchema>
 export function ConfirmTripModalTrigger() {
   const router = useRouter()
 
-  const { destination, endsAt, startsAt } = useTripStore((state) => ({
-    destination: state.destination,
-    endsAt: state.endsAt,
-    startsAt: state.startsAt,
-  }))
+  const { destination, endsAt, startsAt, emailsToInvite } = useTripStore(
+    (state) => ({
+      destination: state.destination,
+      endsAt: state.endsAt,
+      startsAt: state.startsAt,
+      emailsToInvite: state.emailsToInvite,
+    }),
+  )
 
   const { register, handleSubmit } = useForm<ConfirmTripData>({
     resolver: zodResolver(confirmTripSchema),
@@ -51,9 +56,21 @@ export function ConfirmTripModalTrigger() {
     }
   }, [])
 
-  function createTrip({ ownerEmail, ownerName }: ConfirmTripData) {
-    console.log(ownerName, ownerEmail)
-    // router.push('/trips/123')
+  async function onCreateTrip({ ownerEmail, ownerName }: ConfirmTripData) {
+    const result = await createTrip({
+      destination,
+      startsAt,
+      endsAt,
+      ownerEmail,
+      ownerName,
+      emailsToInvite,
+    })
+
+    if (result?.serverError) toast.error(result.serverError)
+
+    if (result?.data)
+      toast.success('Viagem criada com sucesso!') &&
+        router.push(`/trips/${result.data.tripId}`)
   }
 
   return (
@@ -78,7 +95,7 @@ export function ConfirmTripModalTrigger() {
           </DialogDescription>
         </DialogHeader>
 
-        <form className="space-y-3" onSubmit={handleSubmit(createTrip)}>
+        <form className="space-y-3" onSubmit={handleSubmit(onCreateTrip)}>
           <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
             <User className="text-zinc-400 size-5" />
             <input
