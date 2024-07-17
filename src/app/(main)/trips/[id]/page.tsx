@@ -31,7 +31,7 @@ export default async function TripPage({ params }: TripPageProps) {
         <div className="w-80 space-y-6">
           <ImportantLinks tripId={params.id} />
           <div className="w-full h-px bg-zinc-800" />
-          <Guests />
+          <Guests tripId={params.id} />
         </div>
       </main>
     </div>
