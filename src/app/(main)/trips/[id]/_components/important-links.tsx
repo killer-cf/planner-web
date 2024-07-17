@@ -1,49 +1,46 @@
-import { Link2, Plus } from 'lucide-react'
+import { Link2 } from 'lucide-react'
 import Link from 'next/link'
 
-import { Button } from '@/components/ui/button'
+import { listTripLinks } from '@/actions/list-trip-links'
 
-export function ImportantLinks() {
+import { CreateLinkButtonAndModal } from './create-link-button-and-modal'
+
+interface ImportantLinksProps {
+  tripId: string
+}
+
+export async function ImportantLinks({ tripId }: ImportantLinksProps) {
+  const result = await listTripLinks({ tripId })
+
+  if (!result?.data) return null
+
   return (
     <div className="space-y-6">
       <h2 className="font-semibold text-xl">Links importantes</h2>
 
       <div className="space-y-5">
-        <div className="flex items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <span className="block font-medium text-zinc-100">
-              Reserva do AirBnB
-            </span>
-            <Link
-              href={'#'}
-              className="block text-xs text-zinc-400 truncate hover:text-zinc-200"
-            >
-              https://airbnb.com.br/rooms/12345654654646545646546546354654564
-            </Link>
+        {result.data.links.map((link) => (
+          <div
+            className="flex items-center justify-between gap-4"
+            key={link.id}
+          >
+            <div className="space-y-1.5">
+              <span className="block font-medium text-zinc-100">
+                {link.title}
+              </span>
+              <Link
+                href={link.url}
+                className="block text-xs text-zinc-400 truncate hover:text-zinc-200"
+              >
+                {link.url}
+              </Link>
+            </div>
+            <Link2 className="size-5 text-zinc-400 shrink-0" />
           </div>
-          <Link2 className="size-5 text-zinc-400 shrink-0" />
-        </div>
-
-        <div className="flex items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <span className="block font-medium text-zinc-100">
-              Reserva do AirBnB
-            </span>
-            <Link
-              href={'#'}
-              className="block text-xs text-zinc-400 truncate hover:text-zinc-200"
-            >
-              https://airbnb.com.br/rooms/12345654654646545646546546354654564
-            </Link>
-          </div>
-          <Link2 className="size-5 text-zinc-400 shrink-0" />
-        </div>
+        ))}
       </div>
 
-      <Button variant={'secondary'} size={'full'}>
-        <Plus className="size-5" />
-        Cadatrar novo link
-      </Button>
+      <CreateLinkButtonAndModal tripId={tripId} />
     </div>
   )
 }
