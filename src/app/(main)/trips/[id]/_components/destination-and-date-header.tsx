@@ -1,3 +1,4 @@
+import { UserButton } from '@clerk/nextjs'
 import { Calendar, MapPin } from 'lucide-react'
 
 import { Trip } from '@/dtos/trip'
@@ -32,6 +33,7 @@ export function DestinationAndDateHeader({ trip }: Props) {
         <div className="w-px h-6 bg-zinc-800" />
 
         <UpdateTripButton trip={trip} />
+        <UserButton />
       </div>
     </div>
   )

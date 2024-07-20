@@ -25,10 +25,10 @@ export async function Guests({ tripId }: GuestsProps) {
           >
             <div className="space-y-1.5">
               <span className="block font-medium text-zinc-100">
-                {participant.name}
+                {participant.user?.name ?? ''}
               </span>
               <span className="block text-sm text-zinc-400 truncate">
-                {participant.email}
+                {participant.user?.email ?? participant.email}
               </span>
             </div>
 

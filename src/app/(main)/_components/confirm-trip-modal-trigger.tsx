@@ -76,7 +76,7 @@ export function ConfirmTripModalTrigger() {
             <span className="font-semibold text-zinc-100">{destination}</span>{' '}
             nas datas de{' '}
             <span className="font-semibold text-zinc-100">
-              {formatDateRange(startsAt, endsAt)}
+              {formatDateRange(startsAt.toISOString(), endsAt.toISOString())}
             </span>{' '}
             preencha seus dados abaixo:
           </DialogDescription>
