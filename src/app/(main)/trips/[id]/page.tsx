@@ -1,3 +1,6 @@
+import { notFound } from 'next/navigation'
+
+import { getCurrentUser } from '@/actions/get-current-user'
 import { getTrip } from '@/actions/get-trip'
 
 import { Activities } from './_components/activities'
@@ -13,7 +16,17 @@ interface TripPageProps {
 }
 
 export default async function TripPage({ params }: TripPageProps) {
+  const data = await getCurrentUser()
+
+  if (!data?.data?.trip_ids.includes(params.id)) {
+    return notFound()
+  }
+
   const result = await getTrip({ tripId: params.id })
+
+  if (result?.serverError) {
+    return notFound()
+  }
 
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
