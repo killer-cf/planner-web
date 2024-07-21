@@ -1,5 +1,6 @@
 'use client'
 
+import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight, Mail, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -29,21 +30,39 @@ type ConfirmTripData = z.infer<typeof confirmTripSchema>
 
 export function ConfirmTripModalTrigger() {
   const router = useRouter()
+  const { user, isLoaded, isSignedIn } = useUser()
 
-  const { destination, endsAt, startsAt, emailsToInvite } = useTripStore(
+  const { destination, endsAt, startsAt, emailsToInvite, reset } = useTripStore(
     (state) => ({
       destination: state.destination,
       endsAt: state.endsAt,
       startsAt: state.startsAt,
       emailsToInvite: state.emailsToInvite,
+      reset: state.clearState,
     }),
   )
 
   const { register, handleSubmit } = useForm<ConfirmTripData>({
     resolver: zodResolver(confirmTripSchema),
+    defaultValues: {
+      ownerEmail: user?.emailAddresses[0].emailAddress ?? '',
+      ownerName: user?.fullName ?? '',
+    },
   })
 
   async function onCreateTrip({ ownerEmail, ownerName }: ConfirmTripData) {
+    if (!isLoaded) return
+
+    const searchParams = new URLSearchParams()
+    searchParams.set('email', ownerEmail)
+    searchParams.set('firstName', ownerName.split(' ')[0])
+    searchParams.set('lastName', ownerName.split(' ')[1])
+
+    if (!isSignedIn) {
+      router.push(`/sign-in?${searchParams.toString()}`)
+      return
+    }
+
     const result = await createTrip({
       destination,
       startsAt,
@@ -55,9 +74,11 @@ export function ConfirmTripModalTrigger() {
 
     if (result?.serverError) toast.error(result.serverError)
 
-    if (result?.data)
-      toast.success('Viagem criada com sucesso!') &&
-        router.push(`/trips/${result.data.tripId}`)
+    if (result?.data) {
+      toast.success('Viagem criada com sucesso!')
+      router.push(`/trips/${result.data.tripId}`)
+      reset()
+    }
   }
 
   return (
@@ -88,6 +109,7 @@ export function ConfirmTripModalTrigger() {
             <input
               {...register('ownerName')}
               type="text"
+              disabled={!!user}
               placeholder="Seu nome completo"
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
             />
@@ -98,6 +120,7 @@ export function ConfirmTripModalTrigger() {
             <input
               {...register('ownerEmail')}
               type="email"
+              disabled={!!user}
               placeholder="Seu e-mail pessoal"
               className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
             />

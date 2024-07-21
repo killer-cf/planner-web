@@ -27,9 +27,22 @@ export function DestinationAndDateStep({
   isGuestsInputOpen,
   togleGuestsInput,
 }: GuestsInputProps) {
+  const { destination, endsAt, startsAt } = useTripStore((state) => ({
+    destination: state.destination,
+    endsAt: state.endsAt,
+    startsAt: state.startsAt,
+  }))
+
   const { register, handleSubmit, control } =
     useForm<DestinationAndDateStepData>({
       resolver: zodResolver(destinationAndDateStepSchema),
+      defaultValues: {
+        destination: destination ?? '',
+        dateRange: {
+          from: startsAt,
+          to: endsAt,
+        },
+      },
     })
 
   const { setDestinationAndDates } = useTripStore((state) => ({

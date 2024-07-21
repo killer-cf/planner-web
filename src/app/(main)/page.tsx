@@ -4,11 +4,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import { useTripStore } from '@/stores/trip'
+
 import { DestinationAndDateStep } from './_components/destination-and-date-step'
 import { InviteGuestsStep } from './_components/invite-guests-step'
 
 export default function Home() {
-  const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
+  const { destination, endsAt, startsAt } = useTripStore((state) => ({
+    destination: state.destination,
+    endsAt: state.endsAt,
+    startsAt: state.startsAt,
+  }))
+  const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(
+    !!(destination && startsAt && endsAt),
+  )
 
   function togleGuestInput() {
     setIsGuestsInputOpen(!isGuestsInputOpen)

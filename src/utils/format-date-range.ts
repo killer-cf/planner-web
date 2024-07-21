@@ -11,6 +11,6 @@ export const formatDateRange = (startDate: string, endDate: string) => {
     }
     return `${format(initialDate, 'd')} a ${format(finalDate, 'd')} de ${format(initialDate, 'MMMM', { locale: ptBR })} de ${format(initialDate, 'yyyy')}`
   } else {
-    return `${format(initialDate, 'd')} de ${format(initialDate, 'MMMM')} a ${format(finalDate, 'd')} de ${format(finalDate, 'MMMM', { locale: ptBR })} de ${format(finalDate, 'yyyy')}`
+    return `${format(initialDate, 'd')} de ${format(initialDate, 'MMMM', { locale: ptBR })} a ${format(finalDate, 'd')} de ${format(finalDate, 'MMMM', { locale: ptBR })} de ${format(finalDate, 'yyyy')}`
   }
 }
