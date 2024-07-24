@@ -3,9 +3,9 @@
 import { z } from 'zod'
 
 import { api } from '@/lib/api'
-import { actionClient } from '@/lib/safe-action'
+import { authActionClient } from '@/lib/safe-action'
 
-const creatTripSchema = z.object({
+const createTripSchema = z.object({
   ownerName: z.string(),
   ownerEmail: z.string().email(),
   destination: z.string(),
@@ -18,11 +18,14 @@ interface CreateTripResponse {
   trip_id: string
 }
 
-export const createTrip = actionClient
-  .schema(creatTripSchema)
-  .action(async ({ parsedInput: data }) => {
+export const createTrip = authActionClient
+  .schema(createTripSchema)
+  .action(async ({ parsedInput: data, ctx: { token } }) => {
     const res = await api
       .post('api/v1/trips', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         json: {
           destination: data.destination,
           emails_to_invite: data.emailsToInvite,

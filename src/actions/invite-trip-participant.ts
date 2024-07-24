@@ -4,7 +4,7 @@ import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
 import { api } from '@/lib/api'
-import { actionClient } from '@/lib/safe-action'
+import { authActionClient } from '@/lib/safe-action'
 
 const inviteParticipantSchema = z.object({
   tripId: z.string(),
@@ -15,11 +15,14 @@ interface InviteParticipantResponse {
   trip_id: string
 }
 
-export const inviteParticipant = actionClient
+export const inviteParticipant = authActionClient
   .schema(inviteParticipantSchema)
-  .action(async ({ parsedInput: data }) => {
+  .action(async ({ parsedInput: data, ctx: { token } }) => {
     const res = await api
       .post(`api/v1/trips/${data.tripId}/invites`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         json: {
           email: data.email,
         },
