@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
 import { api } from '@/lib/api'
@@ -26,6 +25,4 @@ export const updateTrip = authActionClient
         ends_at: data.endsAt,
       },
     })
-
-    revalidateTag(`trip:${data.tripId}`)
   })

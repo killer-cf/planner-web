@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
 import { getCurrentUser } from '@/actions/get-current-user'
 import { getTrip } from '@/actions/get-trip'
 
 import { Activities } from './_components/activities'
+import { ActivitiesSkeleton } from './_components/activities-skeleton'
 import { CreateActivityModal } from './_components/create-activity-modal'
 import { DestinationAndDateHeader } from './_components/destination-and-date-header'
 import { Guests } from './_components/guests'
@@ -39,7 +41,9 @@ export default async function TripPage({ params }: TripPageProps) {
             <CreateActivityModal tripId={params.id} />
           </div>
 
-          <Activities tripId={params.id} />
+          <Suspense fallback={<ActivitiesSkeleton />} key={params.id}>
+            <Activities tripId={params.id} />
+          </Suspense>
         </div>
         <div className="w-80 space-y-6">
           <ImportantLinks tripId={params.id} />

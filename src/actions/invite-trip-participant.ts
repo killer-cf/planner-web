@@ -23,9 +23,6 @@ export const inviteParticipant = authActionClient
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        json: {
-          email: data.email,
-        },
       })
       .json<InviteParticipantResponse>()
 

@@ -10,6 +10,7 @@ interface ActivitiesProps {
 }
 
 export async function Activities({ tripId }: ActivitiesProps) {
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   const result = await listTripActivities({ tripId })
 
   if (!result?.data?.activities) {

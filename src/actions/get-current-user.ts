@@ -11,7 +11,6 @@ export const getCurrentUser = authActionClient.action(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        cache: 'no-cache',
       })
       .json<GetCurrentUserResponse>()
 

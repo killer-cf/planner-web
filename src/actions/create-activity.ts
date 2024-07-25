@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
 import { api } from '@/lib/api'
@@ -30,8 +29,6 @@ export const createTripActivity = authActionClient
         },
       })
       .json<CreateTripActivityResponse>()
-
-    revalidateTag(`trip:${data.tripId}:activities`)
 
     return { activityId: res.activity_id }
   })

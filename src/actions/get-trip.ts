@@ -18,10 +18,6 @@ export const getTrip = authActionClient
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        next: {
-          revalidate: 60 * 60 * 3,
-          tags: [`trip:${tripId}`],
-        },
       })
       .json<GetTripResponse>()
 

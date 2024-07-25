@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
 import { api } from '@/lib/api'
@@ -30,8 +29,6 @@ export const createLink = authActionClient
         },
       })
       .json<CreateLinkResponse>()
-
-    revalidateTag(`trip:${data.tripId}:links`)
 
     return { linkId: res.link_id }
   })
