@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { createTrip } from '@/actions/create-trip'
+import { createTrip } from '@/server/actions/create-trip'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

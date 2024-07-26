@@ -1,25 +1,24 @@
+'use client'
+
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CircleCheck } from 'lucide-react'
 
-import { listTripActivities } from '@/actions/list-trip-activities'
+import { useListActivities } from '@/hooks/activity'
 import { capitalize } from '@/utils/capitalize'
 
-interface ActivitiesProps {
+interface ActivitiesClientProps {
   tripId: string
 }
 
-export async function Activities({ tripId }: ActivitiesProps) {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  const result = await listTripActivities({ tripId })
+export function ActivitiesClient({ tripId }: ActivitiesClientProps) {
+  const { data } = useListActivities({ tripId })
 
-  if (!result?.data?.activities) {
-    return null
-  }
+  const result = data?.data
 
   return (
     <div className="space-y-8">
-      {result.data.activities.map((activitiesGroup) => (
+      {result?.activities.map((activitiesGroup) => (
         <div className="space-y-2.5" key={activitiesGroup.date}>
           <div className="flex gap-2 items-baseline">
             <span className="text-xl text-zinc-300 font-semibold">

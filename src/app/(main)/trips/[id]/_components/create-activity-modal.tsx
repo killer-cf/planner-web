@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { createTripActivity } from '@/actions/create-activity'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -17,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useCreateActivity } from '@/hooks/activity'
 
 const createActivitySchema = z.object({
   title: z.string(),
@@ -40,19 +40,23 @@ export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
     resolver: zodResolver(createActivitySchema),
   })
 
+  const createAct = useCreateActivity()
+
   async function handleCreateActivity({ occursAt, title }: CreateActivityData) {
-    const result = await createTripActivity({
+    const result = await createAct.mutateAsync({
       tripId,
       occursAt,
       title,
     })
 
-    if (result?.serverError) toast.error(result.serverError)
-
-    if (result?.data) {
+    if (result) {
       toast.success('Atividade cadastrada com sucesso!')
       reset()
       setIsModalOpen(false)
+    }
+
+    if (result?.serverError) {
+      toast.error(result.serverError)
     }
   }
 
