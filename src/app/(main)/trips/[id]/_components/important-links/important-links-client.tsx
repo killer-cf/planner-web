@@ -1,25 +1,27 @@
+'use client'
+
 import { Link2 } from 'lucide-react'
 import Link from 'next/link'
 
-import { listTripLinks } from '@/actions/list-trip-links'
+import { useListLinks } from '@/hooks/links'
 
-import { CreateLinkButtonAndModal } from './create-link-button-and-modal'
+import { CreateLinkButtonAndModal } from '../create-link-button-and-modal'
 
 interface ImportantLinksProps {
   tripId: string
 }
 
-export async function ImportantLinks({ tripId }: ImportantLinksProps) {
-  const result = await listTripLinks({ tripId })
+export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
+  const { data } = useListLinks({ tripId })
 
-  if (!result?.data) return null
+  if (!data?.data) return null
 
   return (
     <div className="space-y-6">
       <h2 className="font-semibold text-xl">Links importantes</h2>
 
       <div className="space-y-5">
-        {result.data.links.map((link) => (
+        {data.data.links.map((link) => (
           <div
             className="flex items-center justify-between gap-4"
             key={link.id}

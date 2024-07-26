@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { createLink } from '@/actions/create-link'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -17,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useCreateLink } from '@/hooks/links'
 
 const createLinkFormSchema = z.object({
   title: z.string(),
@@ -40,8 +40,10 @@ export function CreateLinkButtonAndModal({ tripId }: Props) {
     resolver: zodResolver(createLinkFormSchema),
   })
 
+  const createLink = useCreateLink()
+
   async function handleCreateLink({ title, url }: CreateLinkFormData) {
-    const result = await createLink({
+    const result = await createLink.mutateAsync({
       tripId,
       title,
       url,

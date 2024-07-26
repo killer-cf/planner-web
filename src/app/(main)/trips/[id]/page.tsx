@@ -9,7 +9,8 @@ import { ActivitiesSkeleton } from './_components/activities/activities-skeleton
 import { CreateActivityModal } from './_components/create-activity-modal'
 import { DestinationAndDateHeader } from './_components/destination-and-date-header'
 import { Guests } from './_components/guests'
-import { ImportantLinks } from './_components/important-links'
+import { ImportantLinksServer } from './_components/important-links/important-links-server'
+import { ImportantLinksSkeleton } from './_components/important-links/important-links-skeleton'
 
 interface TripPageProps {
   params: {
@@ -46,7 +47,9 @@ export default async function TripPage({ params }: TripPageProps) {
           </Suspense>
         </div>
         <div className="w-80 space-y-6">
-          <ImportantLinks tripId={params.id} />
+          <Suspense fallback={<ImportantLinksSkeleton />} key={params.id}>
+            <ImportantLinksServer tripId={params.id} />
+          </Suspense>
           <div className="w-full h-px bg-zinc-800" />
           <Guests tripId={params.id} />
         </div>
