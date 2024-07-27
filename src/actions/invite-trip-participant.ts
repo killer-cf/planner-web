@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
 import { api } from '@/lib/api'
@@ -12,7 +11,7 @@ const inviteParticipantSchema = z.object({
 })
 
 interface InviteParticipantResponse {
-  trip_id: string
+  participant_id: string
 }
 
 export const inviteParticipant = authActionClient
@@ -23,10 +22,9 @@ export const inviteParticipant = authActionClient
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        json: { email: data.email },
       })
       .json<InviteParticipantResponse>()
 
-    revalidateTag(`trip:${data.tripId}:participants`)
-
-    return { tripId: res.trip_id }
+    return { participantId: res.participant_id }
   })

@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { inviteParticipant } from '@/actions/invite-trip-participant'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -17,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { useInviteParticipant } from '@/hooks/guests'
 
 const newGuestFormSchema = z.object({
   email: z.string().email(),
@@ -39,8 +39,10 @@ export function GuestButtonAndModal({ tripId }: Props) {
     resolver: zodResolver(newGuestFormSchema),
   })
 
+  const inviteParticipant = useInviteParticipant()
+
   async function handleInviteParticipant({ email }: NewGuestFormData) {
-    const result = await inviteParticipant({
+    const result = await inviteParticipant.mutateAsync({
       tripId,
       email,
     })

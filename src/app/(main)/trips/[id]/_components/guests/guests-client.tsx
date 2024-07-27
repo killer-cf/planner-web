@@ -1,24 +1,26 @@
+'use client'
+
 import { CircleCheck, CircleDashed } from 'lucide-react'
 
-import { listTripParticipants } from '@/actions/list-trip-participants'
+import { useListParticipants } from '@/hooks/guests'
 
-import { GuestButtonAndModal } from './guest-button-and-modal'
+import { GuestButtonAndModal } from '../guest-button-and-modal'
 
 interface GuestsProps {
   tripId: string
 }
 
-export async function Guests({ tripId }: GuestsProps) {
-  const result = await listTripParticipants({ tripId })
+export function GuestsClient({ tripId }: GuestsProps) {
+  const { data } = useListParticipants({ tripId })
 
-  if (!result?.data) return null
+  if (!data?.data) return null
 
   return (
     <div className="space-y-6">
       <h2 className="font-semibold text-xl">Convidados</h2>
 
       <div className="space-y-5">
-        {result.data.participants.map((participant) => (
+        {data.data.participants.map((participant) => (
           <div
             key={participant.id}
             className="flex items-center justify-between gap-4"
@@ -39,7 +41,7 @@ export async function Guests({ tripId }: GuestsProps) {
             )}
           </div>
         ))}
-        {result.data.participants.length === 0 && (
+        {data.data.participants.length === 0 && (
           <p className="text-zinc-400">Nenhum convidado adicionado</p>
         )}
       </div>

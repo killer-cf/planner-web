@@ -8,7 +8,8 @@ import { ActivitiesServer } from './_components/activities/activities-server'
 import { ActivitiesSkeleton } from './_components/activities/activities-skeleton'
 import { CreateActivityModal } from './_components/create-activity-modal'
 import { DestinationAndDateHeader } from './_components/destination-and-date-header'
-import { Guests } from './_components/guests'
+import { GuestsServer } from './_components/guests/guests-server'
+import { GuestsSkeleton } from './_components/guests/guests-skeleton'
 import { ImportantLinksServer } from './_components/important-links/important-links-server'
 import { ImportantLinksSkeleton } from './_components/important-links/important-links-skeleton'
 
@@ -51,7 +52,9 @@ export default async function TripPage({ params }: TripPageProps) {
             <ImportantLinksServer tripId={params.id} />
           </Suspense>
           <div className="w-full h-px bg-zinc-800" />
-          <Guests tripId={params.id} />
+          <Suspense fallback={<GuestsSkeleton />} key={params.id}>
+            <GuestsServer tripId={params.id} />
+          </Suspense>
         </div>
       </main>
     </div>
