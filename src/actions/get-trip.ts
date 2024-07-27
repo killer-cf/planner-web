@@ -21,5 +21,5 @@ export const getTrip = authActionClient
       })
       .json<GetTripResponse>()
 
-    return res.trip
+    return res
   })

@@ -2,16 +2,15 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
 import { getCurrentUser } from '@/actions/get-current-user'
-import { getTrip } from '@/actions/get-trip'
-
 import { ActivitiesServer } from './_components/activities/activities-server'
 import { ActivitiesSkeleton } from './_components/activities/activities-skeleton'
 import { CreateActivityModal } from './_components/create-activity-modal'
-import { DestinationAndDateHeader } from './_components/destination-and-date-header'
 import { GuestsServer } from './_components/guests/guests-server'
 import { GuestsSkeleton } from './_components/guests/guests-skeleton'
 import { ImportantLinksServer } from './_components/important-links/important-links-server'
 import { ImportantLinksSkeleton } from './_components/important-links/important-links-skeleton'
+import { HeaderServer } from './_components/header/header-server'
+import { HeaderSkeleton } from './_components/header/header-skeleton'
 
 interface TripPageProps {
   params: {
@@ -26,16 +25,13 @@ export default async function TripPage({ params }: TripPageProps) {
     return notFound()
   }
 
-  const result = await getTrip({ tripId: params.id })
-
-  if (result?.serverError) {
-    return notFound()
-  }
-
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
-      <DestinationAndDateHeader trip={result?.data} />
-
+      <div>
+        <Suspense fallback={<HeaderSkeleton />} key={params.id}>
+          <HeaderServer tripId={params.id} />
+        </Suspense>
+      </div>
       <main className="flex gap-16 px-4">
         <div className="flex-1 space-y-6">
           <div className="flex items-center justify-between">

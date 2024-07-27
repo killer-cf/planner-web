@@ -1,11 +1,13 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { parseISO } from 'date-fns'
 import { MapPin, Settings2 } from 'lucide-react'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { updateTrip } from '@/actions/update-trip'
 import { DatePickerWithRange } from '@/app/(main)/_components/date-range-picker'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,6 +19,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Trip } from '@/dtos/trip'
+import { useUpdateTrip } from '@/hooks/trips'
 
 const updateTripFormSchema = z.object({
   destination: z.string(),
@@ -33,13 +36,15 @@ interface UpdateTripButtonProps {
 }
 
 export function UpdateTripButton({ trip }: UpdateTripButtonProps) {
+  const updateTrip = useUpdateTrip()
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { register, handleSubmit, control } = useForm<UpdateTripFormData>({
     resolver: zodResolver(updateTripFormSchema),
     defaultValues: {
       destination: trip.destination,
       dateRange: {
-        from: new Date(trip.starts_at),
-        to: new Date(trip.ends_at),
+        from: parseISO(trip.starts_at),
+        to: parseISO(trip.ends_at),
       },
     },
   })
@@ -48,16 +53,22 @@ export function UpdateTripButton({ trip }: UpdateTripButtonProps) {
     dateRange,
     destination,
   }: UpdateTripFormData) {
-    await updateTrip({
+    const result = await updateTrip.mutateAsync({
       tripId: trip.id,
       endsAt: dateRange.to,
       startsAt: dateRange.from,
       destination,
     })
+
+    if (result?.serverError) toast.error(result.serverError)
+    else {
+      toast.success('Viagem atualizada com sucesso')
+      setIsDialogOpen(false)
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant={'secondary'}>
           Alterar local/data
