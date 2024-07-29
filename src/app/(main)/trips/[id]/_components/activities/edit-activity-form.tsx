@@ -6,6 +6,7 @@ import { DateInput } from '@nextui-org/date-input'
 import { parseISO } from 'date-fns'
 import { Calendar, Tag, Trash } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -15,12 +16,18 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Activity, ActivityFormData, activityFormSchema } from '@/dtos/activity'
+import { useUpdateActivity } from '@/hooks/activity'
 
 interface EditActivityModalProps {
   activity: Activity
+  closeModal: () => void
 }
 
-export function EditActivityModal({ activity }: EditActivityModalProps) {
+export function EditActivityModal({
+  activity,
+  closeModal,
+}: EditActivityModalProps) {
+  const updateActivity = useUpdateActivity()
   const {
     control,
     handleSubmit,
@@ -35,7 +42,19 @@ export function EditActivityModal({ activity }: EditActivityModalProps) {
   })
 
   async function handleEditActivity(data: ActivityFormData) {
-    console.log(data)
+    const result = await updateActivity.mutateAsync({
+      activityId: activity.id,
+      ...data,
+    })
+
+    if (!result?.serverError) {
+      toast.success('Atividade editada com sucesso!')
+      closeModal()
+    }
+
+    if (result?.serverError) {
+      toast.error(result.serverError)
+    }
   }
 
   return (

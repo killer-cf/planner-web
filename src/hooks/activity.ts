@@ -6,6 +6,7 @@ import {
 
 import { createTripActivity } from '@/actions/create-activity'
 import { listTripActivities } from '@/actions/list-trip-activities'
+import { updateTripActivity } from '@/actions/update-activity'
 
 interface UseListActivitiesProps {
   tripId: string
@@ -25,6 +26,18 @@ export const useCreateActivity = () => {
     onSuccess(response, variables) {
       queryClient.invalidateQueries({
         queryKey: ['trip-activities', variables.tripId],
+      })
+    },
+  })
+}
+
+export const useUpdateActivity = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: updateTripActivity,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ['trip-activities'],
       })
     },
   })
