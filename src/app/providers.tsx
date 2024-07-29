@@ -3,6 +3,7 @@
 import { ptBR } from '@clerk/localizations'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
+import { NextUIProvider } from '@nextui-org/system'
 import { Toaster } from 'sonner'
 
 import { ReactQueryProvider } from '@/providers/react-query-provider'
@@ -19,7 +20,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           <Toaster />
-          {children}
+          <NextUIProvider locale="pt-BR">{children}</NextUIProvider>
         </ThemeProvider>
       </ReactQueryProvider>
     </ClerkProvider>

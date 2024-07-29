@@ -1,11 +1,12 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { parseAbsoluteToLocal } from '@internationalized/date'
+import { DateInput } from '@nextui-org/date-input'
 import { Calendar, Plus, Tag } from 'lucide-react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,33 +17,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { ActivityFormData, activityFormSchema } from '@/dtos/activity'
 import { useCreateActivity } from '@/hooks/activity'
-
-const createActivitySchema = z.object({
-  title: z.string(),
-  occursAt: z.coerce.date(),
-})
-
-type CreateActivityData = z.infer<typeof createActivitySchema>
 
 interface CreateActivityModalProps {
   tripId: string
 }
 
 export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     reset,
+    control,
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<CreateActivityData>({
-    resolver: zodResolver(createActivitySchema),
+  } = useForm<ActivityFormData>({
+    resolver: zodResolver(activityFormSchema),
   })
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const createAct = useCreateActivity()
 
-  async function handleCreateActivity({ occursAt, title }: CreateActivityData) {
+  async function handleCreateActivity({ occursAt, title }: ActivityFormData) {
     const result = await createAct.mutateAsync({
       tripId,
       occursAt,
@@ -89,15 +85,32 @@ export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
             />
           </div>
 
-          <div className="h-14 flex-1 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-            <Calendar className="text-zinc-400 size-5" />
-            <input
-              {...register('occursAt')}
-              type="datetime-local"
-              placeholder="Data e horário da atividade"
-              className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-            />
-          </div>
+          <Controller
+            control={control}
+            name="occursAt"
+            render={({ field }) => (
+              <div className="h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
+                <DateInput
+                  aria-label="Data e hora da atividade"
+                  value={
+                    field.value
+                      ? parseAbsoluteToLocal(field.value.toISOString())
+                      : null
+                  }
+                  onChange={(date) => field.onChange(date.toDate())}
+                  granularity="minute"
+                  label={null}
+                  hideTimeZone
+                  hourCycle={24}
+                  startContent={<Calendar className="text-zinc-400 size-5" />}
+                  classNames={{
+                    inputWrapper:
+                      'bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950',
+                  }}
+                />
+              </div>
+            )}
+          />
 
           <Button type="submit" size={'full'} disabled={isSubmitting}>
             <Plus className="size-5" />

@@ -2,15 +2,16 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
 import { getCurrentUser } from '@/actions/get-current-user'
+
 import { ActivitiesServer } from './_components/activities/activities-server'
 import { ActivitiesSkeleton } from './_components/activities/activities-skeleton'
 import { CreateActivityModal } from './_components/create-activity-modal'
 import { GuestsServer } from './_components/guests/guests-server'
 import { GuestsSkeleton } from './_components/guests/guests-skeleton'
-import { ImportantLinksServer } from './_components/important-links/important-links-server'
-import { ImportantLinksSkeleton } from './_components/important-links/important-links-skeleton'
 import { HeaderServer } from './_components/header/header-server'
 import { HeaderSkeleton } from './_components/header/header-skeleton'
+import { ImportantLinksServer } from './_components/important-links/important-links-server'
+import { ImportantLinksSkeleton } from './_components/important-links/important-links-skeleton'
 
 interface TripPageProps {
   params: {
