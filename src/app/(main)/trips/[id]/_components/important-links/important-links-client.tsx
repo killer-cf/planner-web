@@ -1,9 +1,11 @@
 'use client'
 
-import { Link2 } from 'lucide-react'
+import { Trash } from 'lucide-react'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
-import { useListLinks } from '@/hooks/links'
+import { Button } from '@/components/ui/button'
+import { useDeleteLink, useListLinks } from '@/hooks/links'
 
 import { CreateLinkButtonAndModal } from '../create-link-button-and-modal'
 
@@ -13,8 +15,21 @@ interface ImportantLinksProps {
 
 export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
   const { data } = useListLinks({ tripId })
+  const deleteLink = useDeleteLink({ tripId })
 
   if (!data?.data) return null
+
+  async function handleDeleteLink(id: string) {
+    const result = await deleteLink.mutateAsync({ linkId: id })
+
+    if (!result?.serverError) {
+      toast.success('Link deletado com sucesso!')
+    }
+
+    if (result?.serverError) {
+      toast.error(result.serverError)
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -37,7 +52,15 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
                 {link.url}
               </Link>
             </div>
-            <Link2 className="size-5 text-zinc-400 shrink-0" />
+            <Button
+              variant={'ghost'}
+              size={'icon2'}
+              className="shrink-0"
+              onClick={() => handleDeleteLink(link.id)}
+              disabled={deleteLink.isPending}
+            >
+              <Trash className="size-4 text-red-500" />
+            </Button>
           </div>
         ))}
       </div>

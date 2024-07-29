@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query'
 
 import { createLink } from '@/actions/create-link'
+import { deleteLink } from '@/actions/delete-links'
 import { listTripLinks } from '@/actions/list-trip-links'
 import { ListTripLinksResponse } from '@/dtos/link'
 
@@ -53,6 +54,35 @@ export const useCreateLink = () => {
           },
         )
       }
+    },
+  })
+}
+
+export const useDeleteLink = ({ tripId }: { tripId: string }) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: deleteLink,
+    onSuccess(response, variables) {
+      if (response?.serverError) {
+        return
+      }
+
+      return queryClient.setQueryData(
+        ['trip-important-links', tripId],
+        (data: {
+          data: ListTripLinksResponse
+        }): { data: ListTripLinksResponse } => {
+          const updatedLinks = data.data.links.filter(
+            (link) => link.id !== variables.linkId,
+          )
+
+          return {
+            data: {
+              links: updatedLinks,
+            },
+          }
+        },
+      )
     },
   })
 }
