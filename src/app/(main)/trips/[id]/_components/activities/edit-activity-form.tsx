@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Activity, ActivityFormData, activityFormSchema } from '@/dtos/activity'
-import { useUpdateActivity } from '@/hooks/activity'
+import { useDeleteActivity, useUpdateActivity } from '@/hooks/activity'
 
 interface EditActivityModalProps {
   activity: Activity
@@ -28,6 +28,7 @@ export function EditActivityModal({
   closeModal,
 }: EditActivityModalProps) {
   const updateActivity = useUpdateActivity()
+  const deleteActivity = useDeleteActivity()
   const {
     control,
     handleSubmit,
@@ -49,6 +50,21 @@ export function EditActivityModal({
 
     if (!result?.serverError) {
       toast.success('Atividade editada com sucesso!')
+      closeModal()
+    }
+
+    if (result?.serverError) {
+      toast.error(result.serverError)
+    }
+  }
+
+  async function handleDeleteActivity() {
+    const result = await deleteActivity.mutateAsync({
+      activityId: activity.id,
+    })
+
+    if (!result?.serverError) {
+      toast.success('Atividade excluída com sucesso!')
       closeModal()
     }
 
@@ -105,7 +121,11 @@ export function EditActivityModal({
             Salvar
           </Button>
 
-          <Button variant={'destructive'}>
+          <Button
+            variant={'destructive'}
+            type="button"
+            onClick={handleDeleteActivity}
+          >
             <Trash className="size-5" />
           </Button>
         </div>

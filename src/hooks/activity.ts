@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query'
 
 import { createTripActivity } from '@/actions/create-activity'
+import { deleteTripActivity } from '@/actions/delete-activity'
 import { listTripActivities } from '@/actions/list-trip-activities'
 import { updateTripActivity } from '@/actions/update-activity'
 
@@ -35,6 +36,18 @@ export const useUpdateActivity = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: updateTripActivity,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ['trip-activities'],
+      })
+    },
+  })
+}
+
+export const useDeleteActivity = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: deleteTripActivity,
     onSuccess() {
       queryClient.invalidateQueries({
         queryKey: ['trip-activities'],
