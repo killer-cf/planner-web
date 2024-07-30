@@ -54,8 +54,8 @@ export function GuestsModalTrigger() {
           </button>
         </DialogTrigger>
         <DialogContent className="w-[640px] shadow-shape space-y-3">
-          <DialogHeader>
-            <DialogTitle>Selecionar convidados</DialogTitle>
+          <DialogHeader className="px-2.5">
+            <DialogTitle className="text-xl">Selecionar convidados</DialogTitle>
             <DialogDescription>
               Os convidados irão receber um convite no email para confirmar a
               participação na viagem.

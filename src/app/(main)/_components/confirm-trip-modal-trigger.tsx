@@ -1,14 +1,9 @@
 'use client'
 
-import { useUser } from '@clerk/nextjs'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRight, Mail, User } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
+import { useMediaQuery } from '@uidotdev/usehooks'
+import { ArrowRight } from 'lucide-react'
+import { useState } from 'react'
 
-import { createTrip } from '@/actions/create-trip'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -18,81 +13,73 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
 import { useTripStore } from '@/stores/trip'
 import { formatDateRange } from '@/utils/format-date-range'
 
-const confirmTripSchema = z.object({
-  ownerName: z.string(),
-  ownerEmail: z.string().email(),
-})
-
-type ConfirmTripData = z.infer<typeof confirmTripSchema>
+import { ConfirmTripForm } from './confitrm-trip-form'
 
 export function ConfirmTripModalTrigger() {
-  const router = useRouter()
-  const { user, isLoaded, isSignedIn } = useUser()
+  const [isOpen, setIsOpen] = useState(false)
+  const { destination, endsAt, startsAt } = useTripStore((state) => ({
+    destination: state.destination,
+    endsAt: state.endsAt,
+    startsAt: state.startsAt,
+  }))
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
-  const { destination, endsAt, startsAt, emailsToInvite, reset } = useTripStore(
-    (state) => ({
-      destination: state.destination,
-      endsAt: state.endsAt,
-      startsAt: state.startsAt,
-      emailsToInvite: state.emailsToInvite,
-      reset: state.clearState,
-    }),
-  )
+  if (isDesktop) {
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button>
+            Confirmar viagem
+            <ArrowRight className="size-5" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="shadow-shape space-y-3">
+          <DialogHeader className="px-2.5">
+            <DialogTitle className="text-xl">
+              Confirmar criação de viagem
+            </DialogTitle>
+            <DialogDescription>
+              Para concluir a criação da viagem para{' '}
+              <span className="font-semibold text-zinc-100">{destination}</span>{' '}
+              nas datas de{' '}
+              <span className="font-semibold text-zinc-100">
+                {formatDateRange(startsAt.toISOString(), endsAt.toISOString())}
+              </span>{' '}
+              preencha seus dados abaixo:
+            </DialogDescription>
+          </DialogHeader>
 
-  const { register, handleSubmit } = useForm<ConfirmTripData>({
-    resolver: zodResolver(confirmTripSchema),
-    defaultValues: {
-      ownerEmail: user?.emailAddresses[0].emailAddress ?? '',
-      ownerName: user?.fullName ?? '',
-    },
-  })
-
-  async function onCreateTrip({ ownerEmail, ownerName }: ConfirmTripData) {
-    if (!isLoaded) return
-
-    const searchParams = new URLSearchParams()
-    searchParams.set('email', ownerEmail)
-    searchParams.set('firstName', ownerName.split(' ')[0])
-    searchParams.set('lastName', ownerName.split(' ')[1])
-
-    if (!isSignedIn) {
-      router.push(`/sign-in?${searchParams.toString()}`)
-      return
-    }
-
-    const result = await createTrip({
-      destination,
-      startsAt,
-      endsAt,
-      ownerEmail,
-      ownerName,
-      emailsToInvite,
-    })
-
-    if (result?.serverError) toast.error(result.serverError)
-
-    if (result?.data) {
-      toast.success('Viagem criada com sucesso!')
-      router.push(`/trips/${result.data.tripId}`)
-      reset()
-    }
+          <ConfirmTripForm />
+        </DialogContent>
+      </Dialog>
+    )
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <DrawerTrigger asChild>
         <Button>
           Confirmar viagem
           <ArrowRight className="size-5" />
         </Button>
-      </DialogTrigger>
-      <DialogContent className="w-[640px] shadow-shape space-y-3">
-        <DialogHeader>
-          <DialogTitle>Confirmar criação de viagem</DialogTitle>
-          <DialogDescription>
+      </DrawerTrigger>
+      <DrawerContent className="shadow-shape space-y-3 px-2.5 mb-8">
+        <DrawerHeader className="gap-3 ">
+          <DrawerTitle className="text-left">
+            Confirmar criação de viagem
+          </DrawerTitle>
+          <DrawerDescription className="text-left">
             Para concluir a criação da viagem para{' '}
             <span className="font-semibold text-zinc-100">{destination}</span>{' '}
             nas datas de{' '}
@@ -100,37 +87,11 @@ export function ConfirmTripModalTrigger() {
               {formatDateRange(startsAt.toISOString(), endsAt.toISOString())}
             </span>{' '}
             preencha seus dados abaixo:
-          </DialogDescription>
-        </DialogHeader>
+          </DrawerDescription>
+        </DrawerHeader>
 
-        <form className="space-y-3" onSubmit={handleSubmit(onCreateTrip)}>
-          <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-            <User className="text-zinc-400 size-5" />
-            <input
-              {...register('ownerName')}
-              type="text"
-              disabled={!!user}
-              placeholder="Seu nome completo"
-              className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-            />
-          </div>
-
-          <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-            <Mail className="text-zinc-400 size-5" />
-            <input
-              {...register('ownerEmail')}
-              type="email"
-              disabled={!!user}
-              placeholder="Seu e-mail pessoal"
-              className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-            />
-          </div>
-
-          <Button type="submit" size={'full'}>
-            Confirmar criação da viagem
-          </Button>
-        </form>
-      </DialogContent>
-    </Dialog>
+        <ConfirmTripForm />
+      </DrawerContent>
+    </Drawer>
   )
 }
