@@ -71,7 +71,7 @@ export function UpdateTripButton({ trip }: UpdateTripButtonProps) {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant={'secondary'}>
-          Alterar local/data
+          <p className="hidden md:block">Alterar local/data</p>
           <Settings2 className="size-5" />
         </Button>
       </DialogTrigger>

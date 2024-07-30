@@ -1,6 +1,7 @@
 'use client'
 
 import { UserButton } from '@clerk/nextjs'
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { Calendar, MapPin } from 'lucide-react'
 import { useEffect } from 'react'
 
@@ -16,6 +17,7 @@ interface Props {
 
 export function HeaderClient({ tripId }: Props) {
   const { data } = useGetTrip({ tripId })
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const { setCurrentTrip } = useCurrentTripStore((state) => ({
     setCurrentTrip: state.setCurrentTrip,
@@ -43,15 +45,21 @@ export function HeaderClient({ tripId }: Props) {
         <div className="flex items-center gap-2">
           <Calendar className="size-5 text-zinc-400" />
           <span className="text-zinc-100">
-            {formatDateRange(data.data.trip.starts_at, data.data.trip.ends_at)}
+            {formatDateRange(
+              data.data.trip.starts_at,
+              data.data.trip.ends_at,
+              !isDesktop,
+            )}
           </span>
         </div>
 
-        <div className="w-px h-6 bg-zinc-800" />
+        <div className="md:items-center gap-5 hidden md:flex">
+          <div className="w-px h-6 bg-zinc-800" />
 
-        <UpdateTripButton trip={data.data.trip} />
+          <UpdateTripButton trip={data.data.trip} />
 
-        <UserButton />
+          <UserButton />
+        </div>
       </div>
     </div>
   )
