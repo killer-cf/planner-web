@@ -16,7 +16,7 @@ export interface CreateTripState {
   clearState: () => void
 }
 
-export const useTripStore = create<CreateTripState>((set, get) => ({
+export const useTripStore = create<CreateTripState>((set) => ({
   destination: '',
   startsAt: new Date(),
   endsAt: new Date(),
