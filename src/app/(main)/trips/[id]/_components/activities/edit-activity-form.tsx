@@ -15,8 +15,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Activity, ActivityFormData, activityFormSchema } from '@/dtos/activity'
+import {
+  Activity,
+  ActivityFormData,
+  loadActivityFormSchema,
+} from '@/dtos/activity'
 import { useDeleteActivity, useUpdateActivity } from '@/hooks/activity'
+import { useCurrentTripStore } from '@/stores/current-trip'
 
 interface EditActivityModalProps {
   activity: Activity
@@ -27,15 +32,19 @@ export function EditActivityModal({
   activity,
   closeModal,
 }: EditActivityModalProps) {
+  const { trip } = useCurrentTripStore((state) => ({
+    trip: state.trip,
+  }))
   const updateActivity = useUpdateActivity()
   const deleteActivity = useDeleteActivity()
   const {
     control,
     handleSubmit,
     register,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<ActivityFormData>({
-    resolver: zodResolver(activityFormSchema),
+    mode: 'onChange',
+    resolver: zodResolver(loadActivityFormSchema(trip)),
     defaultValues: {
       title: activity.title,
       occursAt: parseISO(activity.occurs_at),
@@ -115,6 +124,12 @@ export function EditActivityModal({
             </div>
           )}
         />
+        <div className="h-8">
+          <p className="text-red-500">
+            {errors.occursAt && errors.occursAt.message}
+          </p>
+          <p className="text-red-500">{errors.title && errors.title.message}</p>
+        </div>
 
         <div className="flex gap-2">
           <Button type="submit" className="flex-1" disabled={isSubmitting}>

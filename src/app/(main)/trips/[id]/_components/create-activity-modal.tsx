@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { parseAbsoluteToLocal } from '@internationalized/date'
 import { DateInput } from '@nextui-org/date-input'
+import { parseISO } from 'date-fns'
 import { Calendar, Plus, Tag } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -17,22 +18,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { ActivityFormData, activityFormSchema } from '@/dtos/activity'
+import { ActivityFormData, loadActivityFormSchema } from '@/dtos/activity'
 import { useCreateActivity } from '@/hooks/activity'
+import { useCurrentTripStore } from '@/stores/current-trip'
 
 interface CreateActivityModalProps {
   tripId: string
 }
 
 export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
+  const { trip } = useCurrentTripStore((state) => ({
+    trip: state.trip,
+  }))
   const {
     reset,
     control,
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<ActivityFormData>({
-    resolver: zodResolver(activityFormSchema),
+    mode: 'onChange',
+    resolver: zodResolver(loadActivityFormSchema(trip)),
+    defaultValues: {
+      title: '',
+      occursAt: parseISO(new Date().toISOString()),
+    },
   })
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -97,7 +107,7 @@ export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
                       ? parseAbsoluteToLocal(field.value.toISOString())
                       : null
                   }
-                  onChange={(date) => field.onChange(date.toDate())}
+                  onChange={(date) => date && field.onChange(date.toDate())}
                   granularity="minute"
                   label={null}
                   hideTimeZone
@@ -111,6 +121,15 @@ export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
               </div>
             )}
           />
+
+          <div className="h-8">
+            <p className="text-red-500">
+              {errors.occursAt && errors.occursAt.message}
+            </p>
+            <p className="text-red-500">
+              {errors.title && errors.title.message}
+            </p>
+          </div>
 
           <Button type="submit" size={'full'} disabled={isSubmitting}>
             <Plus className="size-5" />

@@ -2,8 +2,10 @@
 
 import { UserButton } from '@clerk/nextjs'
 import { Calendar, MapPin } from 'lucide-react'
+import { useEffect } from 'react'
 
 import { useGetTrip } from '@/hooks/trips'
+import { useCurrentTripStore } from '@/stores/current-trip'
 import { formatDateRange } from '@/utils/format-date-range'
 
 import { UpdateTripButton } from '../update-trip-button'
@@ -15,7 +17,20 @@ interface Props {
 export function HeaderClient({ tripId }: Props) {
   const { data } = useGetTrip({ tripId })
 
-  if (!data?.data) return null
+  const { setCurrentTrip } = useCurrentTripStore((state) => ({
+    setCurrentTrip: state.setCurrentTrip,
+  }))
+
+  useEffect(() => {
+    if (!data?.data?.trip) {
+      return
+    }
+    setCurrentTrip(data?.data?.trip)
+  }, [data?.data?.trip, setCurrentTrip])
+
+  if (!data?.data) {
+    return null
+  }
 
   return (
     <div className="px-4 h-16 rounded-xl bg-zinc-900 shadow-shape flex items-center justify-between">
@@ -35,6 +50,7 @@ export function HeaderClient({ tripId }: Props) {
         <div className="w-px h-6 bg-zinc-800" />
 
         <UpdateTripButton trip={data.data.trip} />
+
         <UserButton />
       </div>
     </div>
