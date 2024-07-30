@@ -36,7 +36,7 @@ export function DatePickerWithRange({
             variant={'transparent'}
             disabled={disabled}
             className={cn(
-              'justify-start text-left font-normal text-zinc-400',
+              'justify-start text-left font-normal text-zinc-400 px-0',
               !value && 'text-muted-foreground',
             )}
           >

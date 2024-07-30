@@ -61,7 +61,7 @@ export function DestinationAndDateStep({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
+      <div className="md:h-16 bg-zinc-900 px-4 py-5 md:py-0 rounded-xl flex flex-col md:flex-row md:items-center md:shadow-shape gap-3">
         <div className="flex items-center gap-2 flex-1">
           <MapPin className="size-5 text-zinc-400" />
           <input
@@ -72,7 +72,7 @@ export function DestinationAndDateStep({
             className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <Controller
             name="dateRange"
             control={control}
@@ -85,7 +85,7 @@ export function DestinationAndDateStep({
             )}
           />
         </div>
-        <div className="w-px h-6 bg-zinc-800" />
+        <div className="w-px h-6 bg-zinc-800 md:block hidden" />
 
         {isGuestsInputOpen ? (
           <Button type="submit" variant={'secondary'}>
