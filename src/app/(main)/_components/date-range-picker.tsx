@@ -1,5 +1,6 @@
 'use client'
 
+import { useMediaQuery } from '@uidotdev/usehooks'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Calendar as CalendarIcon } from 'lucide-react'
@@ -27,6 +28,8 @@ export function DatePickerWithRange({
   disabled = false,
   onChangeValue,
 }: DatePickerWithRangeProps) {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
@@ -62,7 +65,7 @@ export function DatePickerWithRange({
             defaultMonth={value?.from}
             selected={value}
             onSelect={onChangeValue}
-            numberOfMonths={2}
+            numberOfMonths={isDesktop ? 2 : 1}
             locale={ptBR}
             disabled={{ before: new Date() }}
           />

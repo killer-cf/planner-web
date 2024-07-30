@@ -9,7 +9,7 @@ import { useTripStore } from '@/stores/trip'
 import { DatePickerWithRange } from './date-range-picker'
 
 const destinationAndDateStepSchema = z.object({
-  destination: z.string(),
+  destination: z.string().min(3, { message: 'Mínimo de 3 caracteres' }),
   dateRange: z.object({
     from: z.date(),
     to: z.date(),
@@ -51,7 +51,6 @@ export function DestinationAndDateStep({
 
   function onSubmit({ dateRange, destination }: DestinationAndDateStepData) {
     togleGuestsInput()
-    console.log({ dateRange, destination })
     setDestinationAndDates({
       destination,
       startsAt: dateRange.from,
