@@ -71,7 +71,7 @@ export function CreateActivityModal({ tripId }: CreateActivityModalProps) {
       <DialogTrigger asChild>
         <Button>
           <Plus className="size-5" />
-          Cadastrar atividade
+          Nova atividade
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[640px] rounded-xl shadow-shape bg-zinc-900 space-y-5">

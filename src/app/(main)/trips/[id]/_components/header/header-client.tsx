@@ -2,9 +2,10 @@
 
 import { UserButton } from '@clerk/nextjs'
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { Calendar, MapPin } from 'lucide-react'
+import { Calendar, MapPin, Menu } from 'lucide-react'
 import { useEffect } from 'react'
 
+import { Button } from '@/components/ui/button'
 import { useGetTrip } from '@/hooks/trips'
 import { useCurrentTripStore } from '@/stores/current-trip'
 import { formatDateRange } from '@/utils/format-date-range'
@@ -35,15 +36,15 @@ export function HeaderClient({ tripId }: Props) {
   }
 
   return (
-    <div className="px-4 h-16 rounded-xl bg-zinc-900 shadow-shape flex items-center justify-between">
+    <div className="md:px-4 px-3 h-16 rounded-xl bg-zinc-900 shadow-shape flex items-center justify-between">
       <div className="flex items-center gap-2">
         <MapPin className="size-5 text-zinc-400" />
         <span className="text-zinc-100">{data.data.trip.destination}</span>
       </div>
 
-      <div className="flex items-center gap-5">
+      <div className="flex items-center md:gap-5 gap-2">
         <div className="flex items-center gap-2">
-          <Calendar className="size-5 text-zinc-400" />
+          <Calendar className="size-5 text-zinc-400 hidden md:block" />
           <span className="text-zinc-100">
             {formatDateRange(
               data.data.trip.starts_at,
@@ -60,6 +61,10 @@ export function HeaderClient({ tripId }: Props) {
 
           <UserButton />
         </div>
+
+        <Button variant="secondary" className="md:hidden" size={'icon'}>
+          <Menu className="size-5" />
+        </Button>
       </div>
     </div>
   )

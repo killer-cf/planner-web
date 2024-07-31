@@ -12,6 +12,7 @@ import { HeaderServer } from './_components/header/header-server'
 import { HeaderSkeleton } from './_components/header/header-skeleton'
 import { ImportantLinksServer } from './_components/important-links/important-links-server'
 import { ImportantLinksSkeleton } from './_components/important-links/important-links-skeleton'
+import { NavBottom } from './_components/nav-botton'
 
 interface TripPageProps {
   params: {
@@ -33,10 +34,10 @@ export default async function TripPage({ params }: TripPageProps) {
           <HeaderServer tripId={params.id} />
         </Suspense>
       </div>
-      <main className="flex gap-16 px-4">
+      <main className="flex gap-16 md:px-4">
         <div className="flex-1 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-semibold">Atividades</h2>
+            <h2 className="md:text-3xl text-2xl font-semibold">Atividades</h2>
             <CreateActivityModal tripId={params.id} />
           </div>
 
@@ -44,7 +45,7 @@ export default async function TripPage({ params }: TripPageProps) {
             <ActivitiesServer tripId={params.id} />
           </Suspense>
         </div>
-        <div className="w-80 space-y-6">
+        <div className="w-80 space-y-6 hidden">
           <Suspense fallback={<ImportantLinksSkeleton />} key={params.id}>
             <ImportantLinksServer tripId={params.id} />
           </Suspense>
@@ -54,6 +55,7 @@ export default async function TripPage({ params }: TripPageProps) {
           </Suspense>
         </div>
       </main>
+      <NavBottom />
     </div>
   )
 }
