@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { useDeleteLink, useListLinks } from '@/hooks/links'
 
-import { CreateLinkButtonAndModal } from '../create-link-button-and-modal'
+import { CreateLinkButtonAndModal } from './create-link-button-and-modal'
 
 interface ImportantLinksProps {
   tripId: string
@@ -65,7 +65,7 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
         ))}
       </div>
 
-      <CreateLinkButtonAndModal tripId={tripId} />
+      <CreateLinkButtonAndModal />
     </div>
   )
 }
