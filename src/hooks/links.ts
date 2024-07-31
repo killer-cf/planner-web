@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { createLink } from '@/actions/create-link'
 import { deleteLink } from '@/actions/delete-links'
@@ -14,7 +10,7 @@ interface UseListLinksProps {
 }
 
 export function useListLinks({ tripId }: UseListLinksProps) {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['trip-important-links', tripId],
     queryFn: () => listTripLinks({ tripId }),
   })

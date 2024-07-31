@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { inviteParticipant } from '@/actions/invite-trip-participant'
 import { listTripParticipants } from '@/actions/list-trip-participants'
@@ -13,7 +9,7 @@ interface UseListParticipantsProps {
 }
 
 export function useListParticipants({ tripId }: UseListParticipantsProps) {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: ['trip-participants', tripId],
     queryFn: () => listTripParticipants({ tripId }),
   })
