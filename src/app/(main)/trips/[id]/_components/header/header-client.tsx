@@ -62,7 +62,7 @@ export function HeaderClient({ tripId }: Props) {
           <UserButton />
         </div>
 
-        <Button variant="secondary" className="md:hidden" size={'icon'}>
+        <Button variant="secondary" className="md:hidden" size={'icon2'}>
           <Menu className="size-5" />
         </Button>
       </div>

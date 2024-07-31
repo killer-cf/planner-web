@@ -28,7 +28,7 @@ export default async function TripPage({ params }: TripPageProps) {
   }
 
   return (
-    <div className="max-w-6xl px-6 py-5 md:py-10 mx-auto space-y-8">
+    <div className="max-w-6xl px-6 py-5 md:py-10 mx-auto space-y-8 mb-24 md:mb-10">
       <div>
         <Suspense fallback={<HeaderSkeleton />} key={params.id}>
           <HeaderServer tripId={params.id} />
