@@ -1,11 +1,14 @@
+import { Plus } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
 import { getCurrentUser } from '@/actions/get-current-user'
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
 
 import { ActivitiesServer } from './_components/activities/activities-server'
 import { ActivitiesSkeleton } from './_components/activities/activities-skeleton'
-import { CreateActivityModal } from './_components/create-activity-modal'
+import { CreateActivityForm } from './_components/activities/create-activity-form'
 import { GuestsServer } from './_components/guests/guests-server'
 import { GuestsSkeleton } from './_components/guests/guests-skeleton'
 import { ImportantLinksServer } from './_components/important-links/important-links-server'
@@ -29,7 +32,16 @@ export default async function TripPage({ params }: TripPageProps) {
       <div className="flex-1 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="md:text-3xl text-2xl font-semibold">Atividades</h2>
-          <CreateActivityModal tripId={params.id} />
+          <ModalDrawer
+            title="Cadastrar atividade"
+            description="Todos convidados podem visualizar as atividades."
+            form={CreateActivityForm}
+          >
+            <Button>
+              <Plus className="size-5" />
+              Nova atividade
+            </Button>
+          </ModalDrawer>
         </div>
 
         <Suspense fallback={<ActivitiesSkeleton />} key={params.id}>
