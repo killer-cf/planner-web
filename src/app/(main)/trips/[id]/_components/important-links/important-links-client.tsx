@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { useDeleteLink, useListLinks } from '@/hooks/links'
 
 import { CreateLinkForm } from './create-link-form'
+import { ImportantLinksSkeleton } from './important-links-skeleton'
 
 interface ImportantLinksProps {
   tripId: string
@@ -21,10 +22,12 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
   function closeModal() {
     setIsModalOpen(false)
   }
-  const { data } = useListLinks({ tripId })
+  const { data, isLoading } = useListLinks({ tripId })
   const deleteLink = useDeleteLink({ tripId })
 
-  if (!data?.data) return null
+  if (!data?.data || isLoading) {
+    return <ImportantLinksSkeleton />
+  }
 
   async function handleDeleteLink(id: string) {
     const result = await deleteLink.mutateAsync({ linkId: id })

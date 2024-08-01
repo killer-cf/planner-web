@@ -36,7 +36,7 @@ export default async function TripPage({ params }: TripPageProps) {
           <ActivitiesServer tripId={params.id} />
         </Suspense>
       </div>
-      <div className="w-80 space-y-6 hidden">
+      <div className="w-80 space-y-6 hidden md:block">
         <Suspense fallback={<ImportantLinksSkeleton />}>
           <ImportantLinksServer tripId={params.id} />
         </Suspense>

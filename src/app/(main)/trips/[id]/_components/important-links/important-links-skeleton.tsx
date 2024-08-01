@@ -30,6 +30,8 @@ export function ImportantLinksSkeleton() {
           <Skeleton className="size-5" />
         </div>
       </div>
+
+      <Skeleton className="w-full h-10" />
     </div>
   )
 }

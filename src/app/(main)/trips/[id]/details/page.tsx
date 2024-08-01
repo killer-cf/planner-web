@@ -18,7 +18,7 @@ export default function DetailsPage({ params }: DetailsPageProps) {
   if (isDesktop) notFound()
 
   return (
-    <div className="space-y-6 px-1">
+    <div className="space-y-6 px-1 h-screen">
       <ImportantLinksClient tripId={params.id} />
       <div className="w-full h-px bg-zinc-800" />
       <GuestsClient tripId={params.id} />

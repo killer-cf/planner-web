@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { useListParticipants } from '@/hooks/guests'
 
 import { GuestsForm } from './guests-form'
+import { GuestsSkeleton } from './guests-skeleton'
 
 interface GuestsProps {
   tripId: string
@@ -19,9 +20,11 @@ export function GuestsClient({ tripId }: GuestsProps) {
   function closeModal() {
     setIsModalOpen(false)
   }
-  const { data } = useListParticipants({ tripId })
+  const { data, isLoading } = useListParticipants({ tripId })
 
-  if (!data?.data) return null
+  if (isLoading || !data?.data) {
+    return <GuestsSkeleton />
+  }
 
   return (
     <div className="space-y-6">
