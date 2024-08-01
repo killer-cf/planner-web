@@ -8,6 +8,14 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { useInviteParticipant } from '@/hooks/guests'
 
 const newGuestFormSchema = z.object({
@@ -22,14 +30,15 @@ interface CreateGuestFormProps {
 
 export function GuestsForm({ closeModal }: CreateGuestFormProps) {
   const params = useParams<{ id: string }>()
+  const form = useForm<NewGuestFormData>({
+    resolver: zodResolver(newGuestFormSchema),
+  })
+
   const {
-    register,
     handleSubmit,
     reset,
     formState: { isSubmitting },
-  } = useForm<NewGuestFormData>({
-    resolver: zodResolver(newGuestFormSchema),
-  })
+  } = form
 
   const inviteParticipant = useInviteParticipant()
 
@@ -48,23 +57,34 @@ export function GuestsForm({ closeModal }: CreateGuestFormProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(handleInviteParticipant)}
-      className="space-y-3"
-    >
-      <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-        <Mail className="text-zinc-400 size-5" />
-        <input
-          {...register('email')}
-          placeholder="Email do participante"
-          className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+    <Form {...form}>
+      <form
+        onSubmit={handleSubmit(handleInviteParticipant)}
+        className="space-y-3"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  isInvalid={fieldState.invalid}
+                  icon={Mail}
+                  placeholder="Email do participante"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <Button type="submit" size={'full'} disabled={isSubmitting}>
-        <Navigation className="size-5" />
-        Enviar Convite
-      </Button>
-    </form>
+        <Button type="submit" size={'full'} disabled={isSubmitting}>
+          <Navigation className="size-5" />
+          Enviar Convite
+        </Button>
+      </form>
+    </Form>
   )
 }

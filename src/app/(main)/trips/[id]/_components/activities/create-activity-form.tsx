@@ -6,10 +6,18 @@ import { DateInput } from '@nextui-org/date-input'
 import { parseISO } from 'date-fns'
 import { Calendar, Plus, Tag } from 'lucide-react'
 import { useParams } from 'next/navigation'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { ActivityFormData, loadActivityFormSchema } from '@/dtos/activity'
 import { useCreateActivity } from '@/hooks/activity'
 import { useCurrentTripStore } from '@/stores/current-trip'
@@ -23,13 +31,7 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
   const { trip } = useCurrentTripStore((state) => ({
     trip: state.trip,
   }))
-  const {
-    reset,
-    control,
-    register,
-    handleSubmit,
-    formState: { isSubmitting, errors },
-  } = useForm<ActivityFormData>({
+  const form = useForm<ActivityFormData>({
     mode: 'onChange',
     resolver: zodResolver(loadActivityFormSchema(trip)),
     defaultValues: {
@@ -37,6 +39,11 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
       occursAt: parseISO(new Date().toISOString()),
     },
   })
+  const {
+    reset,
+    handleSubmit,
+    formState: { isSubmitting, isValid },
+  } = form
 
   const createAct = useCreateActivity()
 
@@ -58,56 +65,71 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
     }
   }
   return (
-    <form onSubmit={handleSubmit(handleCreateActivity)} className="space-y-3">
-      <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-        <Tag className="text-zinc-400 size-5" />
-        <input
-          {...register('title')}
-          placeholder="Qual a atividade?"
-          className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+    <Form {...form}>
+      <form onSubmit={handleSubmit(handleCreateActivity)} className="space-y-3">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  isInvalid={fieldState.invalid}
+                  icon={Tag}
+                  placeholder="Qual a atividade?"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <Controller
-        control={control}
-        name="occursAt"
-        render={({ field }) => (
-          <div className="h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-            <DateInput
-              aria-label="Data e hora da atividade"
-              value={
-                field.value
-                  ? parseAbsoluteToLocal(field.value.toISOString())
-                  : null
-              }
-              onChange={(date) => date && field.onChange(date.toDate())}
-              granularity="minute"
-              label={null}
-              hideTimeZone
-              hourCycle={24}
-              startContent={<Calendar className="text-zinc-400 size-5" />}
-              classNames={{
-                inputWrapper:
-                  'bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950',
-              }}
-            />
-          </div>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="occursAt"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormControl>
+                <div
+                  className={`h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 ${fieldState.invalid && 'border-destructive'}`}
+                >
+                  <DateInput
+                    aria-label="Data e hora da atividade"
+                    value={
+                      field.value
+                        ? parseAbsoluteToLocal(field.value.toISOString())
+                        : null
+                    }
+                    onChange={(date) => date && field.onChange(date.toDate())}
+                    granularity="minute"
+                    label={null}
+                    hideTimeZone
+                    isInvalid={fieldState.invalid}
+                    hourCycle={24}
+                    startContent={
+                      <Calendar
+                        className={`text-zinc-400 size-5 ${fieldState.invalid && 'text-destructive'}`}
+                      />
+                    }
+                    classNames={{
+                      base: 'group-data-[invalid=true]:bg-transparent',
+                      inputWrapper:
+                        'bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950 group-data-[invalid=true]:bg-inherit group-data-[invalid=true]:hover:bg-inherit group-data-[invalid=true]:focus-within:hover:bg-inherit',
+                    }}
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <div className="h-8">
-        <p className="text-red-500 text-sm">
-          {errors.occursAt && errors.occursAt.message}
-        </p>
-        <p className="text-red-500 text-sm">
-          {errors.title && errors.title.message}
-        </p>
-      </div>
-
-      <Button type="submit" size={'full'} disabled={isSubmitting}>
-        <Plus className="size-5" />
-        Salvar atividade
-      </Button>
-    </form>
+        <Button type="submit" size={'full'} disabled={isSubmitting || !isValid}>
+          <Plus className="size-5" />
+          Salvar atividade
+        </Button>
+      </form>
+    </Form>
   )
 }

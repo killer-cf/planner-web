@@ -8,11 +8,21 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { useCreateLink } from '@/hooks/links'
 
 const createLinkFormSchema = z.object({
-  title: z.string(),
-  url: z.string().url(),
+  title: z
+    .string()
+    .min(4, { message: 'O título deve ter no mínimo 4 caracteres' }),
+  url: z.string().url({ message: 'URL inválida' }),
 })
 
 type CreateLinkFormData = z.infer<typeof createLinkFormSchema>
@@ -24,14 +34,16 @@ interface CreateLinkFormProps {
 export function CreateLinkForm({ closeModal }: CreateLinkFormProps) {
   const params = useParams<{ id: string }>()
   const createLink = useCreateLink()
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { isSubmitting },
-  } = useForm<CreateLinkFormData>({
+  const form = useForm<CreateLinkFormData>({
+    mode: 'onChange',
     resolver: zodResolver(createLinkFormSchema),
   })
+
+  const {
+    handleSubmit,
+    reset,
+    formState: { isSubmitting, isValid },
+  } = form
 
   async function handleCreateLink({ title, url }: CreateLinkFormData) {
     const result = await createLink.mutateAsync({
@@ -49,30 +61,49 @@ export function CreateLinkForm({ closeModal }: CreateLinkFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleCreateLink)} className="space-y-3">
-      <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-        <Tag className="text-zinc-400 size-5" />
-        <input
-          {...register('title')}
-          placeholder="Ao oque se refere o link?"
-          className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+    <Form {...form}>
+      <form onSubmit={handleSubmit(handleCreateLink)} className="space-y-3">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  isInvalid={fieldState.invalid}
+                  icon={Tag}
+                  placeholder="Ao oque se refere o link?"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className="h-14 flex-1 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-        <Link2 className="text-zinc-400 size-5" />
-        <input
-          {...register('url')}
-          type="text"
-          placeholder="URL do link"
-          className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+        <FormField
+          control={form.control}
+          name="url"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  isInvalid={fieldState.invalid}
+                  icon={Link2}
+                  placeholder="URL do link"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <Button type="submit" size={'full'} disabled={isSubmitting}>
-        <Plus className="size-5" />
-        Adicionar link
-      </Button>
-    </form>
+        <Button type="submit" size={'full'} disabled={isSubmitting || !isValid}>
+          <Plus className="size-5" />
+          Adicionar link
+        </Button>
+      </form>
+    </Form>
   )
 }
