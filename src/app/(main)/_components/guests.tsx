@@ -19,7 +19,7 @@ export function Guests() {
   }
 
   return (
-    <div className="flex flex-wrap gap-2 px-2.5">
+    <div className="flex flex-wrap gap-2 mb-5">
       {emailsToInvite.map((email) => {
         return (
           <div

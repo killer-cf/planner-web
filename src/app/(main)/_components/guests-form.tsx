@@ -33,7 +33,7 @@ export function GuestsForm() {
   return (
     <form
       onSubmit={addNewEmailToInvite}
-      className="p-2.5 md:bg-zinc-950 md:border md:border-zinc-800 rounded-lg flex md:flex-row flex-col md:items-center md:gap-2 gap-4"
+      className="py-5 md:bg-zinc-950 md:border md:border-zinc-800 rounded-lg flex md:flex-row flex-col md:items-center md:gap-2 gap-4"
     >
       <div className="px-2 flex items-center flex-1 gap-2 md:bg-inherit bg-zinc-950 border md:border-none border-zinc-800 rounded-lg h-16 md:h-full py-3 md:py-0">
         <AtSign className="text-zinc-400 size-5" />
