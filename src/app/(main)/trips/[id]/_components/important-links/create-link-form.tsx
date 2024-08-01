@@ -49,10 +49,7 @@ export function CreateLinkForm({ closeModal }: CreateLinkFormProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(handleCreateLink)}
-      className="space-y-3 px-2.5"
-    >
+    <form onSubmit={handleSubmit(handleCreateLink)} className="space-y-3">
       <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
         <Tag className="text-zinc-400 size-5" />
         <input

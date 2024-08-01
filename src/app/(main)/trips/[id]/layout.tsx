@@ -18,7 +18,7 @@ export default function OneTripLayout({
   return (
     <div className="max-w-6xl px-6 py-5 md:py-10 mx-auto space-y-8 mb-24 md:mb-10">
       <div>
-        <Suspense fallback={<HeaderSkeleton />} key={params.id}>
+        <Suspense fallback={<HeaderSkeleton />}>
           <HeaderServer tripId={params.id} />
         </Suspense>
       </div>

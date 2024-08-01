@@ -22,7 +22,7 @@ import {
 
 interface ModalDrawerProps {
   title: string
-  description: string
+  description: ReactNode
   form: ({ closeModal }: { closeModal: () => void }) => ReactElement
   children: ReactNode
 }

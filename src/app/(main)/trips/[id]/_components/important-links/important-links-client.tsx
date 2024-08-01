@@ -1,13 +1,14 @@
 'use client'
 
-import { Trash } from 'lucide-react'
+import { Plus, Trash } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
+import { ModalDrawer } from '@/components/modal-drawer'
 import { Button } from '@/components/ui/button'
 import { useDeleteLink, useListLinks } from '@/hooks/links'
 
-import { CreateLinkButtonAndModal } from './create-link-button-and-modal'
+import { CreateLinkForm } from './create-link-form'
 
 interface ImportantLinksProps {
   tripId: string
@@ -65,7 +66,16 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
         ))}
       </div>
 
-      <CreateLinkButtonAndModal />
+      <ModalDrawer
+        title="Cadastrar novo link"
+        description="Adicione um novo link para sua viagem, todos os convidados poderão ver."
+        form={CreateLinkForm}
+      >
+        <Button variant={'secondary'} size={'full'}>
+          <Plus className="size-5" />
+          Cadastrar novo link
+        </Button>
+      </ModalDrawer>
     </div>
   )
 }

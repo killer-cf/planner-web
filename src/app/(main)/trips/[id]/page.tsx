@@ -44,16 +44,16 @@ export default async function TripPage({ params }: TripPageProps) {
           </ModalDrawer>
         </div>
 
-        <Suspense fallback={<ActivitiesSkeleton />} key={params.id}>
+        <Suspense fallback={<ActivitiesSkeleton />}>
           <ActivitiesServer tripId={params.id} />
         </Suspense>
       </div>
       <div className="w-80 space-y-6 hidden">
-        <Suspense fallback={<ImportantLinksSkeleton />} key={params.id}>
+        <Suspense fallback={<ImportantLinksSkeleton />}>
           <ImportantLinksServer tripId={params.id} />
         </Suspense>
         <div className="w-full h-px bg-zinc-800" />
-        <Suspense fallback={<GuestsSkeleton />} key={params.id}>
+        <Suspense fallback={<GuestsSkeleton />}>
           <GuestsServer tripId={params.id} />
         </Suspense>
       </div>
