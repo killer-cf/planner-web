@@ -1,10 +1,12 @@
 'use client'
 
-import { CircleCheck, CircleDashed } from 'lucide-react'
+import { CircleCheck, CircleDashed, UserCog } from 'lucide-react'
 
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
 import { useListParticipants } from '@/hooks/guests'
 
-import { GuestButtonAndModal } from '../guest-button-and-modal'
+import { GuestsForm } from './guests-form'
 
 interface GuestsProps {
   tripId: string
@@ -46,7 +48,16 @@ export function GuestsClient({ tripId }: GuestsProps) {
         )}
       </div>
 
-      <GuestButtonAndModal tripId={tripId} />
+      <ModalDrawer
+        title="Adicionar novo participante"
+        description="Adicione um novo participante ao grupo de viagem"
+        form={GuestsForm}
+      >
+        <Button variant={'secondary'} size={'full'}>
+          <UserCog className="size-5" />
+          Gerenciar convidados
+        </Button>
+      </ModalDrawer>
     </div>
   )
 }
