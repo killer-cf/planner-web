@@ -2,6 +2,7 @@
 
 import { Plus, Trash } from 'lucide-react'
 import Link from 'next/link'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { ModalDrawer } from '@/components/modal-drawer'
@@ -15,6 +16,11 @@ interface ImportantLinksProps {
 }
 
 export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  function closeModal() {
+    setIsModalOpen(false)
+  }
   const { data } = useListLinks({ tripId })
   const deleteLink = useDeleteLink({ tripId })
 
@@ -69,7 +75,9 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
       <ModalDrawer
         title="Cadastrar novo link"
         description="Adicione um novo link para sua viagem, todos os convidados poderão ver."
-        form={CreateLinkForm}
+        open={isModalOpen}
+        onChangeOpen={setIsModalOpen}
+        content={<CreateLinkForm closeModal={closeModal} />}
       >
         <Button variant={'secondary'} size={'full'}>
           <Plus className="size-5" />

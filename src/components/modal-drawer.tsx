@@ -1,7 +1,7 @@
 'use client'
 
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { ReactElement, ReactNode, useState } from 'react'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 
 import {
   Dialog,
@@ -23,40 +23,39 @@ import {
 interface ModalDrawerProps {
   title: string
   description: ReactNode
-  form: ({ closeModal }: { closeModal: () => void }) => ReactElement
+  content: ReactNode
   children: ReactNode
+  open: boolean
+  onChangeOpen: Dispatch<SetStateAction<boolean>>
 }
 
 export function ModalDrawer({
-  form: Form,
+  content,
   description,
   children,
   title,
+  open,
+  onChangeOpen,
 }: ModalDrawerProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
-
-  function closeModal() {
-    setIsModalOpen(false)
-  }
 
   if (isDesktop) {
     return (
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={open} onOpenChange={onChangeOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <Form closeModal={closeModal} />
+          {content}
         </DialogContent>
       </Dialog>
     )
   }
 
   return (
-    <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
+    <Drawer open={open} onOpenChange={onChangeOpen}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="shadow-shape space-y-3 px-2.5 mb-8">
         <DrawerHeader className="px-2.5">
@@ -65,9 +64,7 @@ export function ModalDrawer({
             {description}
           </DrawerDescription>
         </DrawerHeader>
-        <div className="px-2.5">
-          <Form closeModal={closeModal} />
-        </div>
+        <div className="px-2.5">{content}</div>
       </DrawerContent>
     </Drawer>
   )

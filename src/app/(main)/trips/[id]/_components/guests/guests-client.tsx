@@ -1,6 +1,7 @@
 'use client'
 
 import { CircleCheck, CircleDashed, UserCog } from 'lucide-react'
+import { useState } from 'react'
 
 import { ModalDrawer } from '@/components/modal-drawer'
 import { Button } from '@/components/ui/button'
@@ -13,6 +14,11 @@ interface GuestsProps {
 }
 
 export function GuestsClient({ tripId }: GuestsProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  function closeModal() {
+    setIsModalOpen(false)
+  }
   const { data } = useListParticipants({ tripId })
 
   if (!data?.data) return null
@@ -51,7 +57,9 @@ export function GuestsClient({ tripId }: GuestsProps) {
       <ModalDrawer
         title="Adicionar novo participante"
         description="Adicione um novo participante ao grupo de viagem"
-        form={GuestsForm}
+        open={isModalOpen}
+        onChangeOpen={setIsModalOpen}
+        content={<GuestsForm closeModal={closeModal} />}
       >
         <Button variant={'secondary'} size={'full'}>
           <UserCog className="size-5" />

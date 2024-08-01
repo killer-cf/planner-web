@@ -1,12 +1,11 @@
 'use client'
 
-import { DialogTrigger } from '@radix-ui/react-dialog'
 import { format } from 'date-fns'
 import { CircleCheck, Ellipsis } from 'lucide-react'
 import { useState } from 'react'
 
+import { ModalDrawer } from '@/components/modal-drawer'
 import { Button } from '@/components/ui/button'
-import { Dialog } from '@/components/ui/dialog'
 import { Activity as ActivityDto } from '@/dtos/activity'
 
 import { EditActivityModal } from './edit-activity-form'
@@ -31,14 +30,19 @@ export function Activity({ activity }: ActivityProps) {
         <span className="text-zinc-400 text-sm ml-auto">
           {format(new Date(activity.occurs_at), "HH:mm'h'")}
         </span>
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogTrigger asChild>
-            <Button variant={'transparent'} size={'icon2'}>
-              <Ellipsis className="size-4" />
-            </Button>
-          </DialogTrigger>
-          <EditActivityModal activity={activity} closeModal={closeModal} />
-        </Dialog>
+        <ModalDrawer
+          title="Ações da atividade"
+          description="Aqui você pode editar a atividade, alterando o título e a data/hora. E também pode excluir a atividade."
+          open={isModalOpen}
+          onChangeOpen={setIsModalOpen}
+          content={
+            <EditActivityModal activity={activity} closeModal={closeModal} />
+          }
+        >
+          <Button variant={'transparent'} size={'icon2'}>
+            <Ellipsis className="size-4" />
+          </Button>
+        </ModalDrawer>
       </div>
     </div>
   )

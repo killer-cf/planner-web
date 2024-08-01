@@ -5,16 +5,18 @@ import { parseAbsoluteToLocal } from '@internationalized/date'
 import { DateInput } from '@nextui-org/date-input'
 import { parseISO } from 'date-fns'
 import { Calendar, Tag, Trash } from 'lucide-react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import {
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Activity,
   ActivityFormData,
@@ -37,12 +39,7 @@ export function EditActivityModal({
   }))
   const updateActivity = useUpdateActivity()
   const deleteActivity = useDeleteActivity()
-  const {
-    control,
-    handleSubmit,
-    register,
-    formState: { isSubmitting, errors },
-  } = useForm<ActivityFormData>({
+  const form = useForm<ActivityFormData>({
     mode: 'onChange',
     resolver: zodResolver(loadActivityFormSchema(trip)),
     defaultValues: {
@@ -50,6 +47,10 @@ export function EditActivityModal({
       occursAt: parseISO(activity.occurs_at),
     },
   })
+  const {
+    handleSubmit,
+    formState: { isSubmitting, isValid },
+  } = form
 
   async function handleEditActivity(data: ActivityFormData) {
     const result = await updateActivity.mutateAsync({
@@ -83,56 +84,72 @@ export function EditActivityModal({
   }
 
   return (
-    <DialogContent className="w-[640px] rounded-xl shadow-shape bg-zinc-900">
-      <DialogHeader>
-        <DialogTitle>Ações da atividade</DialogTitle>
-        <DialogDescription>
-          Aqui você pode editar a atividade, alterando o título e a data/hora. E
-          também pode excluir a atividade.
-        </DialogDescription>
-      </DialogHeader>
-
+    <Form {...form}>
       <form onSubmit={handleSubmit(handleEditActivity)} className="space-y-3">
-        <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-          <Tag className="text-zinc-400 size-5" />
-          <input
-            {...register('title')}
-            placeholder="Qual a atividade?"
-            className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-          />
-        </div>
-
-        <Controller
-          control={control}
-          name="occursAt"
-          render={({ field }) => (
-            <div className="h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-              <DateInput
-                aria-label="Data e hora da atividade"
-                value={parseAbsoluteToLocal(field.value.toISOString())}
-                onChange={(date) => field.onChange(date.toDate())}
-                granularity="minute"
-                label={null}
-                hideTimeZone
-                hourCycle={24}
-                startContent={<Calendar className="text-zinc-400 size-5" />}
-                classNames={{
-                  inputWrapper:
-                    'bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950',
-                }}
-              />
-            </div>
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  isInvalid={fieldState.invalid}
+                  icon={Tag}
+                  placeholder="Qual a atividade?"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
         />
-        <div className="h-8">
-          <p className="text-red-500">
-            {errors.occursAt && errors.occursAt.message}
-          </p>
-          <p className="text-red-500">{errors.title && errors.title.message}</p>
-        </div>
+
+        <FormField
+          control={form.control}
+          name="occursAt"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormControl>
+                <div
+                  className={`h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 ${fieldState.invalid && 'border-destructive'}`}
+                >
+                  <DateInput
+                    aria-label="Data e hora da atividade"
+                    value={
+                      field.value
+                        ? parseAbsoluteToLocal(field.value.toISOString())
+                        : null
+                    }
+                    onChange={(date) => date && field.onChange(date.toDate())}
+                    granularity="minute"
+                    label={null}
+                    hideTimeZone
+                    isInvalid={fieldState.invalid}
+                    hourCycle={24}
+                    startContent={
+                      <Calendar
+                        className={`text-zinc-400 size-5 ${fieldState.invalid && 'text-destructive'}`}
+                      />
+                    }
+                    classNames={{
+                      base: 'group-data-[invalid=true]:bg-transparent',
+                      inputWrapper:
+                        'bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950 group-data-[invalid=true]:bg-inherit group-data-[invalid=true]:hover:bg-inherit group-data-[invalid=true]:focus-within:hover:bg-inherit',
+                    }}
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex gap-2">
-          <Button type="submit" className="flex-1" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={isSubmitting || !isValid}
+          >
             Salvar
           </Button>
 
@@ -145,6 +162,6 @@ export function EditActivityModal({
           </Button>
         </div>
       </form>
-    </DialogContent>
+    </Form>
   )
 }
