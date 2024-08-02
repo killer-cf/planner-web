@@ -4,6 +4,7 @@ import { SignOutButton, UserButton } from '@clerk/nextjs'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import { ArrowRightFromLine, Calendar, MapPin, Menu } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -15,7 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { useGetTrip } from '@/hooks/trips'
+import { useGetTrip, useListUserTrips } from '@/hooks/trips'
 import { useCurrentTripStore } from '@/stores/current-trip'
 import { formatDateRange } from '@/utils/format-date-range'
 
@@ -32,6 +33,8 @@ export function HeaderClient({ tripId }: Props) {
   const { setCurrentTrip } = useCurrentTripStore((state) => ({
     setCurrentTrip: state.setCurrentTrip,
   }))
+
+  const { data: trips } = useListUserTrips()
 
   useEffect(() => {
     if (!data?.data?.trip) {
@@ -95,6 +98,19 @@ export function HeaderClient({ tripId }: Props) {
                 <h4 className="text-medium font-medium text-zinc-200">
                   Minhas viagens planejadas
                 </h4>
+                <div className="flex flex-col space-y-2 py-5">
+                  {trips?.data?.trips.map((trip) => (
+                    <Link
+                      href={`/trips/${trip.id}`}
+                      key={trip.id + trip.destination}
+                    >
+                      <span className="text-zinc-100 underline">
+                        {trip.destination} -{' '}
+                        {formatDateRange(trip.starts_at, trip.ends_at, true)}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </div>
               <div className="flex gap-3">
                 <UserButton />

@@ -9,3 +9,7 @@ export type Trip = {
 export type GetTripResponse = {
   trip: Trip
 }
+
+export type ListUserTripsResponse = {
+  trips: Trip[]
+}

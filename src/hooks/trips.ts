@@ -1,10 +1,12 @@
 import {
   useMutation,
+  useQuery,
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query'
 
 import { getTrip } from '@/actions/get-trip'
+import { listUserTrips } from '@/actions/list-user-trips'
 import { updateTrip } from '@/actions/update-trip'
 import { GetTripResponse, Trip } from '@/dtos/trip'
 
@@ -16,6 +18,13 @@ export function useGetTrip({ tripId }: UseGetTripProps) {
   return useSuspenseQuery({
     queryKey: ['trip', tripId],
     queryFn: () => getTrip({ tripId }),
+  })
+}
+
+export function useListUserTrips() {
+  return useQuery({
+    queryKey: ['trips'],
+    queryFn: () => listUserTrips(),
   })
 }
 
