@@ -8,7 +8,7 @@ import {
 import { getTrip } from '@/actions/get-trip'
 import { listUserTrips } from '@/actions/list-user-trips'
 import { updateTrip } from '@/actions/update-trip'
-import { GetTripResponse, Trip } from '@/dtos/trip'
+import { GetTripResponse, ListUserTripsResponse, Trip } from '@/dtos/trip'
 
 interface UseGetTripProps {
   tripId: string
@@ -45,6 +45,30 @@ export const useUpdateTrip = () => {
         queryClient.invalidateQueries({
           queryKey: ['trip-activities', variables.tripId],
         })
+
+        queryClient.setQueryData(
+          ['trips'],
+          (
+            oldData: { data: ListUserTripsResponse } | undefined,
+          ): { data: ListUserTripsResponse } => {
+            if (oldData) {
+              return {
+                data: {
+                  ...oldData.data,
+                  trips: oldData.data.trips.map((trip) =>
+                    trip.id === variables.tripId ? updatedTrip : trip,
+                  ),
+                },
+              }
+            } else {
+              return {
+                data: {
+                  trips: [updatedTrip],
+                },
+              }
+            }
+          },
+        )
 
         return queryClient.setQueryData(
           ['trip', variables.tripId],

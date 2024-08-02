@@ -5,7 +5,9 @@ import { useMediaQuery } from '@uidotdev/usehooks'
 import { ArrowRightFromLine, Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 
+import { ModalDrawer } from '@/components/modal-drawer'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -18,9 +20,20 @@ import {
 import { useListUserTrips } from '@/hooks/trips'
 import { formatDateRange } from '@/utils/format-date-range'
 
+import { EditTripForm } from '../edit-trip-form'
+
 export function HeaderSheet() {
+  const [isEditTripModalOpen, setIsEditTripModalOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { data: trips } = useListUserTrips({ enabled: !isDesktop })
+
+  if (isDesktop) {
+    return null
+  }
+
+  function closeModal() {
+    setIsEditTripModalOpen(false)
+  }
 
   return (
     <Sheet>
@@ -62,14 +75,27 @@ export function HeaderSheet() {
               ))}
             </div>
           </div>
-          <div className="flex gap-3">
-            <UserButton />
-            <SignOutButton>
-              <Button size={'sm'} variant={'outline'}>
-                <p className="text-destructive">Sair</p>
-                <ArrowRightFromLine className="size-5 text-destructive" />
+          <div className="flex flex-col gap-5 text-zinc-400">
+            <ModalDrawer
+              title="Editar viagem atual"
+              description="Edite os detalhes da sua viagem"
+              open={isEditTripModalOpen}
+              onChangeOpen={setIsEditTripModalOpen}
+              content={<EditTripForm closeModal={closeModal} />}
+            >
+              <Button className="px-0 text-left self-start" variant={'ghost'}>
+                <p>Editar viagem atual</p>
               </Button>
-            </SignOutButton>
+            </ModalDrawer>
+            <div className="flex gap-3">
+              <UserButton />
+              <SignOutButton>
+                <Button size={'sm'} variant={'outline'}>
+                  <p className="text-destructive">Sair</p>
+                  <ArrowRightFromLine className="size-5 text-destructive" />
+                </Button>
+              </SignOutButton>
+            </div>
           </div>
         </div>
       </SheetContent>

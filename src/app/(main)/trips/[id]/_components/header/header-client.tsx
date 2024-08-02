@@ -2,14 +2,16 @@
 
 import { UserButton } from '@clerk/nextjs'
 import { useMediaQuery } from '@uidotdev/usehooks'
-import { Calendar, MapPin } from 'lucide-react'
-import { useEffect } from 'react'
+import { Calendar, MapPin, Settings2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
 import { useGetTrip } from '@/hooks/trips'
 import { useCurrentTripStore } from '@/stores/current-trip'
 import { formatDateRange } from '@/utils/format-date-range'
 
-import { UpdateTripButton } from '../update-trip-button'
+import { EditTripForm } from '../edit-trip-form'
 import { HeaderSheet } from './header-sheet'
 
 interface Props {
@@ -17,12 +19,17 @@ interface Props {
 }
 
 export function HeaderClient({ tripId }: Props) {
+  const [isEditTripModalOpen, setIsEditTripModalOpen] = useState(false)
   const { data } = useGetTrip({ tripId })
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const { setCurrentTrip } = useCurrentTripStore((state) => ({
     setCurrentTrip: state.setCurrentTrip,
   }))
+
+  function closeModal() {
+    setIsEditTripModalOpen(false)
+  }
 
   useEffect(() => {
     if (!data?.data?.trip) {
@@ -57,7 +64,18 @@ export function HeaderClient({ tripId }: Props) {
         <div className="md:items-center gap-5 hidden md:flex">
           <div className="w-px h-6 bg-zinc-800" />
 
-          <UpdateTripButton trip={data.data.trip} />
+          <ModalDrawer
+            title="Informações da viagem"
+            description="Você pode alterar o local e a data da viagem a qualquer momento."
+            content={<EditTripForm closeModal={closeModal} />}
+            open={isEditTripModalOpen}
+            onChangeOpen={setIsEditTripModalOpen}
+          >
+            <Button variant={'secondary'}>
+              <p className="hidden md:block">Alterar local/data</p>
+              <Settings2 className="size-5" />
+            </Button>
+          </ModalDrawer>
 
           <UserButton />
         </div>
