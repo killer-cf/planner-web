@@ -21,10 +21,11 @@ export function useGetTrip({ tripId }: UseGetTripProps) {
   })
 }
 
-export function useListUserTrips() {
+export function useListUserTrips({ enabled = true }) {
   return useQuery({
     queryKey: ['trips'],
     queryFn: () => listUserTrips(),
+    enabled,
   })
 }
 
