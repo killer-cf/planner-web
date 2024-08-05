@@ -12,9 +12,10 @@ import { GuestsSkeleton } from './guests-skeleton'
 
 interface GuestsProps {
   tripId: string
+  isParticipantOwner: boolean
 }
 
-export function GuestsClient({ tripId }: GuestsProps) {
+export function GuestsClient({ tripId, isParticipantOwner }: GuestsProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   function closeModal() {
@@ -57,18 +58,20 @@ export function GuestsClient({ tripId }: GuestsProps) {
         )}
       </div>
 
-      <ModalDrawer
-        title="Adicionar novo participante"
-        description="Adicione um novo participante ao grupo de viagem"
-        open={isModalOpen}
-        onChangeOpen={setIsModalOpen}
-        content={<GuestsForm closeModal={closeModal} />}
-      >
-        <Button variant={'secondary'} size={'full'}>
-          <UserCog className="size-5" />
-          Gerenciar convidados
-        </Button>
-      </ModalDrawer>
+      {isParticipantOwner && (
+        <ModalDrawer
+          title="Adicionar novo participante"
+          description="Adicione um novo participante ao grupo de viagem"
+          open={isModalOpen}
+          onChangeOpen={setIsModalOpen}
+          content={<GuestsForm closeModal={closeModal} />}
+        >
+          <Button variant={'secondary'} size={'full'}>
+            <UserCog className="size-5" />
+            Gerenciar convidados
+          </Button>
+        </ModalDrawer>
+      )}
     </div>
   )
 }

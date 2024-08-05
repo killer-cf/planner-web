@@ -16,9 +16,10 @@ import { HeaderSheet } from './header-sheet'
 
 interface Props {
   tripId: string
+  isParticipantOwner: boolean
 }
 
-export function HeaderClient({ tripId }: Props) {
+export function HeaderClient({ tripId, isParticipantOwner }: Props) {
   const [isEditTripModalOpen, setIsEditTripModalOpen] = useState(false)
   const { data } = useGetTrip({ tripId })
   const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -64,23 +65,25 @@ export function HeaderClient({ tripId }: Props) {
         <div className="md:items-center gap-5 hidden md:flex">
           <div className="w-px h-6 bg-zinc-800" />
 
-          <ModalDrawer
-            title="Informações da viagem"
-            description="Você pode alterar o local e a data da viagem a qualquer momento."
-            content={<EditTripForm closeModal={closeModal} />}
-            open={isEditTripModalOpen}
-            onChangeOpen={setIsEditTripModalOpen}
-          >
-            <Button variant={'secondary'}>
-              <p className="hidden md:block">Alterar local/data</p>
-              <Settings2 className="size-5" />
-            </Button>
-          </ModalDrawer>
+          {isParticipantOwner && (
+            <ModalDrawer
+              title="Informações da viagem"
+              description="Você pode alterar o local e a data da viagem a qualquer momento."
+              content={<EditTripForm closeModal={closeModal} />}
+              open={isEditTripModalOpen}
+              onChangeOpen={setIsEditTripModalOpen}
+            >
+              <Button variant={'secondary'}>
+                <p className="hidden md:block">Alterar local/data</p>
+                <Settings2 className="size-5" />
+              </Button>
+            </ModalDrawer>
+          )}
 
           <UserButton />
         </div>
 
-        <HeaderSheet />
+        <HeaderSheet isParticipantOwner={isParticipantOwner} />
       </div>
     </div>
   )

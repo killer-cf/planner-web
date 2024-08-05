@@ -22,7 +22,11 @@ import { formatDateRange } from '@/utils/format-date-range'
 
 import { EditTripForm } from '../edit-trip-form'
 
-export function HeaderSheet() {
+interface HeaderSheetProps {
+  isParticipantOwner: boolean
+}
+
+export function HeaderSheet({ isParticipantOwner }: HeaderSheetProps) {
   const [isEditTripModalOpen, setIsEditTripModalOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { data: trips } = useListUserTrips({ enabled: !isDesktop })
@@ -76,17 +80,20 @@ export function HeaderSheet() {
             </div>
           </div>
           <div className="flex flex-col gap-5 text-zinc-400">
-            <ModalDrawer
-              title="Editar viagem atual"
-              description="Edite os detalhes da sua viagem"
-              open={isEditTripModalOpen}
-              onChangeOpen={setIsEditTripModalOpen}
-              content={<EditTripForm closeModal={closeModal} />}
-            >
-              <Button className="px-0 text-left self-start" variant={'ghost'}>
-                <p>Editar viagem atual</p>
-              </Button>
-            </ModalDrawer>
+            {isParticipantOwner && (
+              <ModalDrawer
+                title="Editar viagem atual"
+                description="Edite os detalhes da sua viagem"
+                open={isEditTripModalOpen}
+                onChangeOpen={setIsEditTripModalOpen}
+                content={<EditTripForm closeModal={closeModal} />}
+              >
+                <Button className="px-0 text-left self-start" variant={'ghost'}>
+                  <p>Editar viagem atual</p>
+                </Button>
+              </ModalDrawer>
+            )}
+
             <div className="flex gap-3">
               <UserButton />
               <SignOutButton>

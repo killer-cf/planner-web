@@ -3,6 +3,7 @@ export type Participant = {
   name: string
   email: string
   is_confirmed: boolean
+  is_owner: boolean
   user: {
     id: string
     name: string
@@ -12,4 +13,8 @@ export type Participant = {
 
 export type ListTripParticipantsResponse = {
   participants: Participant[]
+}
+
+export type GetCurrentParticipantResponse = {
+  participant: Participant
 }
