@@ -10,7 +10,6 @@ interface ImportantLinksProps {
 }
 
 export async function ImportantLinksServer({ tripId }: ImportantLinksProps) {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
   const queryClient = getQueryClient()
   queryClient.prefetchQuery({
     queryKey: ['trip-important-links', tripId],

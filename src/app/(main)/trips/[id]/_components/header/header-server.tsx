@@ -11,8 +11,6 @@ interface HeaderProps {
 }
 
 export async function HeaderServer({ tripId }: HeaderProps) {
-  await new Promise((resolve) => setTimeout(resolve, 1500))
-
   const isOwner = await isParticipantOwner(tripId)
 
   const queryClient = getQueryClient()

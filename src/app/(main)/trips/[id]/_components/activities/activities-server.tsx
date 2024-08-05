@@ -10,7 +10,6 @@ interface ActivitiesProps {
 }
 
 export async function ActivitiesServer({ tripId }: ActivitiesProps) {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
   const queryClient = getQueryClient()
   queryClient.prefetchQuery({
     queryKey: ['trip-activities', tripId],
