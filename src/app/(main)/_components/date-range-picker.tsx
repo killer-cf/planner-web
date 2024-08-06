@@ -1,11 +1,11 @@
 'use client'
 
-import { useMediaQuery } from '@uidotdev/usehooks'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Calendar as CalendarIcon } from 'lucide-react'
 import * as React from 'react'
 import { DateRange } from 'react-day-picker'
+import { useMediaQuery } from 'usehooks-ts'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'

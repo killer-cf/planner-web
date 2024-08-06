@@ -5,7 +5,11 @@ import { createSafeActionClient } from 'next-safe-action'
 export const actionClient = createSafeActionClient({
   async handleReturnedServerError(error) {
     if (error instanceof HTTPError) {
-      const data = await error.response.json()
+      const data = await error.response.json<{
+        errors: string[]
+        error: string
+        message: string
+      }>()
 
       if (data.errors && data.errors.length > 0) {
         return data.errors[0]

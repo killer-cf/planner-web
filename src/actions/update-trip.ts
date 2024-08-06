@@ -19,7 +19,7 @@ export const updateTrip = authActionClient
     const isOwner = await isParticipantOwner(data.tripId)
 
     if (!isOwner) {
-      throw new Error("Only owner can update the trip")
+      throw new Error('Only owner can update the trip')
     }
 
     await api.put(`api/v1/trips/${data.tripId}`, {

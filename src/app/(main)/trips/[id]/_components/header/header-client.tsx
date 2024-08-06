@@ -1,9 +1,9 @@
 'use client'
 
 import { UserButton } from '@clerk/nextjs'
-import { useMediaQuery } from '@uidotdev/usehooks'
 import { Calendar, MapPin, Settings2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
 import { ModalDrawer } from '@/components/modal-drawer'
 import { Button } from '@/components/ui/button'

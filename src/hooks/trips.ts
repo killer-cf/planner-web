@@ -38,7 +38,6 @@ export const useUpdateTrip = () => {
         const updatedTrip: Trip = {
           id: variables.tripId,
           destination: variables.destination,
-          is_confirmed: true,
           starts_at: variables.startsAt.toISOString(),
           ends_at: variables.endsAt.toISOString(),
         }

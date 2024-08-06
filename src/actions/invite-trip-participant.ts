@@ -21,7 +21,7 @@ export const inviteParticipant = authActionClient
     const isOwner = await isParticipantOwner(data.tripId)
 
     if (!isOwner) {
-      throw new Error("Only owner can invite participants")
+      throw new Error('Only owner can invite participants')
     }
 
     const res = await api

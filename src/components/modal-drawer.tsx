@@ -1,7 +1,7 @@
 'use client'
 
-import { useMediaQuery } from '@uidotdev/usehooks'
 import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
 import {
   Dialog,

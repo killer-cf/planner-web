@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     if (!user) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
-  } catch (error) {
+  } catch {
     return new NextResponse('Erro to check session', { status: 500 })
   }
 

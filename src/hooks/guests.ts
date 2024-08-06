@@ -27,6 +27,7 @@ export const useInviteParticipant = () => {
           id: participantId,
           email: variables.email,
           is_confirmed: false,
+          is_owner: false,
           name: '',
           user: null,
         }

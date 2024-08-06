@@ -2,9 +2,9 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
 import { listTripParticipants } from '@/actions/list-trip-participants'
 import { getQueryClient } from '@/lib/get-query-client'
+import { isParticipantOwner } from '@/utils/is-participant-owner'
 
 import { GuestsClient } from './guests-client'
-import { isParticipantOwner } from '@/utils/is-participant-owner'
 
 interface GuestsProps {
   tripId: string

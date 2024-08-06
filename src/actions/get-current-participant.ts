@@ -2,9 +2,9 @@
 
 import { z } from 'zod'
 
+import { GetCurrentParticipantResponse } from '@/dtos/participant'
 import { api } from '@/lib/api'
 import { authActionClient } from '@/lib/safe-action'
-import { GetCurrentParticipantResponse } from '@/dtos/participant'
 
 const getCurrentParticipantSchema = z.object({
   tripId: z.string(),

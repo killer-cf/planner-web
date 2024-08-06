@@ -2,8 +2,8 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
 import { getTrip } from '@/actions/get-trip'
 import { getQueryClient } from '@/lib/get-query-client'
-
 import { isParticipantOwner } from '@/utils/is-participant-owner'
+
 import { HeaderClient } from './header-client'
 
 interface HeaderProps {

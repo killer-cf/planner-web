@@ -1,11 +1,11 @@
 'use client'
 
 import { SignOutButton, UserButton } from '@clerk/nextjs'
-import { useMediaQuery } from '@uidotdev/usehooks'
 import { ArrowRightFromLine, Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
 import { ModalDrawer } from '@/components/modal-drawer'
 import { Button } from '@/components/ui/button'
