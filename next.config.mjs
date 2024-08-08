@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   logging: {
     fetches: {
       fullUrl: true,
     },
   },
-  output: 'standalone',
 }
 
 export default nextConfig
