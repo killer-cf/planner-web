@@ -1,11 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { inviteParticipant } from "@/actions/invite-trip-participant"
-import { listTripParticipants } from "@/actions/list-trip-participants"
+import { inviteParticipant } from '@/actions/invite-trip-participant'
+import { listTripParticipants } from '@/actions/list-trip-participants'
 import type {
 	ListTripParticipantsResponse,
 	Participant
-} from "@/dtos/participant"
+} from '@/dtos/participant'
 
 interface UseListParticipantsProps {
 	tripId: string
@@ -13,7 +13,7 @@ interface UseListParticipantsProps {
 
 export function useListParticipants({ tripId }: UseListParticipantsProps) {
 	return useQuery({
-		queryKey: ["trip-participants", tripId],
+		queryKey: ['trip-participants', tripId],
 		queryFn: () => listTripParticipants({ tripId })
 	})
 }
@@ -31,12 +31,12 @@ export const useInviteParticipant = () => {
 					email: variables.email,
 					is_confirmed: false,
 					is_owner: false,
-					name: "",
+					name: '',
 					user: null
 				}
 
 				return queryClient.setQueryData(
-					["trip-participants", variables.tripId],
+					['trip-participants', variables.tripId],
 					(data: {
 						data: ListTripParticipantsResponse
 					}): { data: ListTripParticipantsResponse } => {

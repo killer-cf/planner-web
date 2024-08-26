@@ -1,17 +1,17 @@
-"use client"
+'use client'
 
-import { DialogDescription } from "@radix-ui/react-dialog"
-import { ArrowRight, UserRoundPlus } from "lucide-react"
-import { useState } from "react"
+import { DialogDescription } from '@radix-ui/react-dialog'
+import { ArrowRight, UserRoundPlus } from 'lucide-react'
+import { useState } from 'react'
 
-import { ModalDrawer } from "@/components/modal-drawer"
-import { Button } from "@/components/ui/button"
-import { useTripStore } from "@/stores/trip"
-import { formatDateRange } from "@/utils/format-date-range"
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
+import { useTripStore } from '@/stores/trip'
+import { formatDateRange } from '@/utils/format-date-range'
 
-import { ConfirmTripForm } from "./confitrm-trip-form"
-import { Guests } from "./guests"
-import { GuestsForm } from "./guests-form"
+import { ConfirmTripForm } from './confitrm-trip-form'
+import { Guests } from './guests'
+import { GuestsForm } from './guests-form'
 
 export function InviteGuestsStep() {
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -61,12 +61,12 @@ export function InviteGuestsStep() {
 				title="Confirmar criação de viagem"
 				description={
 					<DialogDescription>
-						Para concluir a criação da viagem para{" "}
-						<span className="font-semibold text-zinc-100">{destination}</span>{" "}
-						nas datas de{" "}
+						Para concluir a criação da viagem para{' '}
+						<span className="font-semibold text-zinc-100">{destination}</span>{' '}
+						nas datas de{' '}
 						<span className="font-semibold text-zinc-100">
 							{formatDateRange(startsAt.toISOString(), endsAt.toISOString())}
-						</span>{" "}
+						</span>{' '}
 						preencha seus dados abaixo:
 					</DialogDescription>
 				}

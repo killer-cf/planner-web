@@ -1,11 +1,11 @@
-import dayjs from "dayjs"
+import dayjs from 'dayjs'
 
-import type { Trip } from "@/dtos/trip"
+import type { Trip } from '@/dtos/trip'
 
 export const validateOccursAt = (occursAt: Date, trip: Trip) => {
 	const occursAtDate = dayjs(occursAt)
-	const startDate = dayjs(trip.starts_at).startOf("day")
-	const endDate = dayjs(trip.ends_at).endOf("day")
+	const startDate = dayjs(trip.starts_at).startOf('day')
+	const endDate = dayjs(trip.ends_at).endOf('day')
 
 	if (!occursAtDate.isValid()) {
 		return false

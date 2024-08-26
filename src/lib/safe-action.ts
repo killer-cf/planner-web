@@ -1,6 +1,6 @@
-import { auth, clerkClient } from "@clerk/nextjs/server"
-import { HTTPError } from "ky"
-import { createSafeActionClient } from "next-safe-action"
+import { auth, clerkClient } from '@clerk/nextjs/server'
+import { HTTPError } from 'ky'
+import { createSafeActionClient } from 'next-safe-action'
 
 export const actionClient = createSafeActionClient({
 	async handleReturnedServerError(error) {
@@ -18,7 +18,7 @@ export const actionClient = createSafeActionClient({
 			return data.error || data.message
 		}
 
-		return "Ocorreu um erro inesperado, tente novamente mais tarde"
+		return 'Ocorreu um erro inesperado, tente novamente mais tarde'
 	}
 })
 
@@ -26,10 +26,10 @@ export const authActionClient = actionClient.use(async ({ next }) => {
 	const { userId, sessionId } = auth()
 
 	if (!userId || !sessionId) {
-		throw new Error("User logged out")
+		throw new Error('User logged out')
 	}
 
-	const token = await clerkClient().sessions.getToken(sessionId, "default")
+	const token = await clerkClient().sessions.getToken(sessionId, 'default')
 
 	return next({ ctx: { userId, token: token.jwt } })
 })

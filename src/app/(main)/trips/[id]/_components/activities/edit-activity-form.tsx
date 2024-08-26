@@ -1,29 +1,29 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { parseAbsoluteToLocal } from "@internationalized/date"
-import { DateInput } from "@nextui-org/date-input"
-import { parseISO } from "date-fns"
-import { Calendar, Tag, Trash } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { parseAbsoluteToLocal } from '@internationalized/date'
+import { DateInput } from '@nextui-org/date-input'
+import { parseISO } from 'date-fns'
+import { Calendar, Tag, Trash } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
 	type Activity,
 	type ActivityFormData,
 	loadActivityFormSchema
-} from "@/dtos/activity"
-import { useDeleteActivity, useUpdateActivity } from "@/hooks/activity"
-import { useCurrentTripStore } from "@/stores/current-trip"
+} from '@/dtos/activity'
+import { useDeleteActivity, useUpdateActivity } from '@/hooks/activity'
+import { useCurrentTripStore } from '@/stores/current-trip'
 
 interface EditActivityModalProps {
 	activity: Activity
@@ -40,7 +40,7 @@ export function EditActivityModal({
 	const updateActivity = useUpdateActivity()
 	const deleteActivity = useDeleteActivity()
 	const form = useForm<ActivityFormData>({
-		mode: "onChange",
+		mode: 'onChange',
 		resolver: zodResolver(loadActivityFormSchema(trip)),
 		defaultValues: {
 			title: activity.title,
@@ -59,7 +59,7 @@ export function EditActivityModal({
 		})
 
 		if (!result?.serverError) {
-			toast.success("Atividade editada com sucesso!")
+			toast.success('Atividade editada com sucesso!')
 			closeModal()
 		}
 
@@ -74,7 +74,7 @@ export function EditActivityModal({
 		})
 
 		if (!result?.serverError) {
-			toast.success("Atividade excluída com sucesso!")
+			toast.success('Atividade excluída com sucesso!')
 			closeModal()
 		}
 
@@ -111,7 +111,7 @@ export function EditActivityModal({
 						<FormItem>
 							<FormControl>
 								<div
-									className={`h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 ${fieldState.invalid && "border-destructive"}`}
+									className={`h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 ${fieldState.invalid && 'border-destructive'}`}
 								>
 									<DateInput
 										aria-label="Data e hora da atividade"
@@ -128,13 +128,13 @@ export function EditActivityModal({
 										hourCycle={24}
 										startContent={
 											<Calendar
-												className={`text-zinc-400 size-5 ${fieldState.invalid && "text-destructive"}`}
+												className={`text-zinc-400 size-5 ${fieldState.invalid && 'text-destructive'}`}
 											/>
 										}
 										classNames={{
-											base: "group-data-[invalid=true]:bg-transparent",
+											base: 'group-data-[invalid=true]:bg-transparent',
 											inputWrapper:
-												"bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950 group-data-[invalid=true]:bg-inherit group-data-[invalid=true]:hover:bg-inherit group-data-[invalid=true]:focus-within:hover:bg-inherit"
+												'bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950 group-data-[invalid=true]:bg-inherit group-data-[invalid=true]:hover:bg-inherit group-data-[invalid=true]:focus-within:hover:bg-inherit'
 										}}
 									/>
 								</div>
@@ -154,7 +154,7 @@ export function EditActivityModal({
 					</Button>
 
 					<Button
-						variant={"destructive"}
+						variant={'destructive'}
 						type="button"
 						onClick={handleDeleteActivity}
 					>

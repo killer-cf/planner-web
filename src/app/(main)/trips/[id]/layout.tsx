@@ -1,8 +1,8 @@
-import { type ReactNode, Suspense } from "react"
+import { type ReactNode, Suspense } from 'react'
 
-import { HeaderServer } from "./_components/header/header-server"
-import { HeaderSkeleton } from "./_components/header/header-skeleton"
-import { NavBottom } from "./_components/nav-botton"
+import { HeaderServer } from './_components/header/header-server'
+import { HeaderSkeleton } from './_components/header/header-skeleton'
+import { NavBottom } from './_components/nav-botton'
 
 interface OneTripLayoutProps {
 	children: ReactNode

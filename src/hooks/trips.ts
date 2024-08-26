@@ -3,12 +3,12 @@ import {
 	useQuery,
 	useQueryClient,
 	useSuspenseQuery
-} from "@tanstack/react-query"
+} from '@tanstack/react-query'
 
-import { getTrip } from "@/actions/get-trip"
-import { listUserTrips } from "@/actions/list-user-trips"
-import { updateTrip } from "@/actions/update-trip"
-import type { GetTripResponse, ListUserTripsResponse, Trip } from "@/dtos/trip"
+import { getTrip } from '@/actions/get-trip'
+import { listUserTrips } from '@/actions/list-user-trips'
+import { updateTrip } from '@/actions/update-trip'
+import type { GetTripResponse, ListUserTripsResponse, Trip } from '@/dtos/trip'
 
 interface UseGetTripProps {
 	tripId: string
@@ -16,14 +16,14 @@ interface UseGetTripProps {
 
 export function useGetTrip({ tripId }: UseGetTripProps) {
 	return useSuspenseQuery({
-		queryKey: ["trip", tripId],
+		queryKey: ['trip', tripId],
 		queryFn: () => getTrip({ tripId })
 	})
 }
 
 export function useListUserTrips({ enabled = true }) {
 	return useQuery({
-		queryKey: ["trips"],
+		queryKey: ['trips'],
 		queryFn: () => listUserTrips(),
 		enabled
 	})
@@ -42,11 +42,11 @@ export const useUpdateTrip = () => {
 					ends_at: variables.endsAt.toISOString()
 				}
 				queryClient.invalidateQueries({
-					queryKey: ["trip-activities", variables.tripId]
+					queryKey: ['trip-activities', variables.tripId]
 				})
 
 				queryClient.setQueryData(
-					["trips"],
+					['trips'],
 					(
 						oldData: { data: ListUserTripsResponse } | undefined
 					): { data: ListUserTripsResponse } => {
@@ -69,7 +69,7 @@ export const useUpdateTrip = () => {
 				)
 
 				return queryClient.setQueryData(
-					["trip", variables.tripId],
+					['trip', variables.tripId],
 					(): { data: GetTripResponse } => {
 						return {
 							data: {

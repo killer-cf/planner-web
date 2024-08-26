@@ -1,5 +1,5 @@
-import { format, isSameMonth, parseISO } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { format, isSameMonth, parseISO } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 export const formatDateRange = (
 	startDate: string,
@@ -11,18 +11,18 @@ export const formatDateRange = (
 
 	if (shortFormat) {
 		if (isSameMonth(initialDate, finalDate)) {
-			if (format(initialDate, "d") === format(finalDate, "d")) {
-				return `${format(initialDate, "d")} ${format(initialDate, "MMM", { locale: ptBR })} ${format(initialDate, "yyyy")}`
+			if (format(initialDate, 'd') === format(finalDate, 'd')) {
+				return `${format(initialDate, 'd')} ${format(initialDate, 'MMM', { locale: ptBR })} ${format(initialDate, 'yyyy')}`
 			}
-			return `${format(initialDate, "d")} - ${format(finalDate, "d")} ${format(initialDate, "MMM", { locale: ptBR })} ${format(initialDate, "yyyy")}`
+			return `${format(initialDate, 'd')} - ${format(finalDate, 'd')} ${format(initialDate, 'MMM', { locale: ptBR })} ${format(initialDate, 'yyyy')}`
 		}
-		return `${format(initialDate, "d")} ${format(initialDate, "MMM", { locale: ptBR })} ${format(initialDate, "yyyy")} - ${format(finalDate, "d")} ${format(finalDate, "MMM", { locale: ptBR })} ${format(finalDate, "yyyy")}`
+		return `${format(initialDate, 'd')} ${format(initialDate, 'MMM', { locale: ptBR })} ${format(initialDate, 'yyyy')} - ${format(finalDate, 'd')} ${format(finalDate, 'MMM', { locale: ptBR })} ${format(finalDate, 'yyyy')}`
 	}
 	if (isSameMonth(initialDate, finalDate)) {
-		if (format(initialDate, "d") === format(finalDate, "d")) {
-			return `${format(initialDate, "d")} de ${format(initialDate, "MMMM", { locale: ptBR })} de ${format(initialDate, "yyyy")}`
+		if (format(initialDate, 'd') === format(finalDate, 'd')) {
+			return `${format(initialDate, 'd')} de ${format(initialDate, 'MMMM', { locale: ptBR })} de ${format(initialDate, 'yyyy')}`
 		}
-		return `${format(initialDate, "d")} a ${format(finalDate, "d")} de ${format(initialDate, "MMMM", { locale: ptBR })} de ${format(initialDate, "yyyy")}`
+		return `${format(initialDate, 'd')} a ${format(finalDate, 'd')} de ${format(initialDate, 'MMMM', { locale: ptBR })} de ${format(initialDate, 'yyyy')}`
 	}
-	return `${format(initialDate, "d")} de ${format(initialDate, "MMMM", { locale: ptBR })} a ${format(finalDate, "d")} de ${format(finalDate, "MMMM", { locale: ptBR })} de ${format(finalDate, "yyyy")}`
+	return `${format(initialDate, 'd')} de ${format(initialDate, 'MMMM', { locale: ptBR })} a ${format(finalDate, 'd')} de ${format(finalDate, 'MMMM', { locale: ptBR })} de ${format(finalDate, 'yyyy')}`
 }

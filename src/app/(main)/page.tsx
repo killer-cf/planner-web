@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import Image from "next/image"
-import Link from "next/link"
-import { useState } from "react"
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
 
-import { useTripStore } from "@/stores/trip"
+import { useTripStore } from '@/stores/trip'
 
-import { DestinationAndDateStep } from "./_components/destination-and-date-step"
-import { InviteGuestsStep } from "./_components/invite-guests-step"
+import { DestinationAndDateStep } from './_components/destination-and-date-step'
+import { InviteGuestsStep } from './_components/invite-guests-step'
 
 export default function Home() {
 	const { destination, endsAt, startsAt } = useTripStore((state) => ({
@@ -46,13 +46,13 @@ export default function Home() {
 				</div>
 
 				<p className="text-zinc-500">
-					Ao planejar sua viagem pelo plann.er você automaticamente concorda{" "}
-					<br /> com nossos{" "}
-					<Link className="text-zinc-300 underline" href={"#"}>
+					Ao planejar sua viagem pelo plann.er você automaticamente concorda{' '}
+					<br /> com nossos{' '}
+					<Link className="text-zinc-300 underline" href={'#'}>
 						termos de uso
-					</Link>{" "}
-					e{" "}
-					<Link className="text-zinc-300 underline" href={"#"}>
+					</Link>{' '}
+					e{' '}
+					<Link className="text-zinc-300 underline" href={'#'}>
 						políticas de privacidade.
 					</Link>
 				</p>

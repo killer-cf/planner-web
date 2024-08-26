@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { CircleCheck, CircleDashed, UserCog } from "lucide-react"
-import { useState } from "react"
+import { CircleCheck, CircleDashed, UserCog } from 'lucide-react'
+import { useState } from 'react'
 
-import { ModalDrawer } from "@/components/modal-drawer"
-import { Button } from "@/components/ui/button"
-import { useListParticipants } from "@/hooks/guests"
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
+import { useListParticipants } from '@/hooks/guests'
 
-import { GuestsForm } from "./guests-form"
-import { GuestsSkeleton } from "./guests-skeleton"
+import { GuestsForm } from './guests-form'
+import { GuestsSkeleton } from './guests-skeleton'
 
 interface GuestsProps {
 	tripId: string
@@ -39,7 +39,7 @@ export function GuestsClient({ tripId, isParticipantOwner }: GuestsProps) {
 					>
 						<div className="space-y-1.5">
 							<span className="block font-medium text-zinc-100">
-								{participant.user?.name ?? ""}
+								{participant.user?.name ?? ''}
 							</span>
 							<span className="block text-sm text-zinc-400 truncate">
 								{participant.user?.email ?? participant.email}
@@ -66,7 +66,7 @@ export function GuestsClient({ tripId, isParticipantOwner }: GuestsProps) {
 					onChangeOpen={setIsModalOpen}
 					content={<GuestsForm closeModal={closeModal} />}
 				>
-					<Button variant={"secondary"} size={"full"}>
+					<Button variant={'secondary'} size={'full'}>
 						<UserCog className="size-5" />
 						Gerenciar convidados
 					</Button>

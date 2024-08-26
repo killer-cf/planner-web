@@ -5,9 +5,9 @@
 	},
 	"javascript": {
 		"formatter": {
+			"quoteStyle": "single",
 			"semicolons": "asNeeded",
-			"trailingCommas": "none",
-			"jsxQuoteStyle": "double"
+			"trailingCommas": "none"
 		}
 	},
 	"linter": {

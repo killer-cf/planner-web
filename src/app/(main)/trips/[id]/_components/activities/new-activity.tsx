@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { Plus } from "lucide-react"
-import { useState } from "react"
+import { Plus } from 'lucide-react'
+import { useState } from 'react'
 
-import { ModalDrawer } from "@/components/modal-drawer"
-import { Button } from "@/components/ui/button"
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
 
-import { CreateActivityForm } from "./create-activity-form"
+import { CreateActivityForm } from './create-activity-form'
 
 export function NewActivity() {
 	const [isModalOpen, setIsModalOpen] = useState(false)

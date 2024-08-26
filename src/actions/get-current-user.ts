@@ -1,8 +1,8 @@
-"use server"
+'use server'
 
-import type { GetCurrentUserResponse } from "@/dtos/user"
-import { api } from "@/lib/api"
-import { authActionClient } from "@/lib/safe-action"
+import type { GetCurrentUserResponse } from '@/dtos/user'
+import { api } from '@/lib/api'
+import { authActionClient } from '@/lib/safe-action'
 
 export const getCurrentUser = authActionClient.action(
 	async ({ ctx: { token, userId } }) => {

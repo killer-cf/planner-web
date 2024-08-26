@@ -1,18 +1,18 @@
-"use client"
+'use client'
 
-import { UserButton } from "@clerk/nextjs"
-import { Calendar, MapPin, Settings2 } from "lucide-react"
-import { useEffect, useState } from "react"
-import { useMediaQuery } from "usehooks-ts"
+import { UserButton } from '@clerk/nextjs'
+import { Calendar, MapPin, Settings2 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
-import { ModalDrawer } from "@/components/modal-drawer"
-import { Button } from "@/components/ui/button"
-import { useGetTrip } from "@/hooks/trips"
-import { useCurrentTripStore } from "@/stores/current-trip"
-import { formatDateRange } from "@/utils/format-date-range"
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
+import { useGetTrip } from '@/hooks/trips'
+import { useCurrentTripStore } from '@/stores/current-trip'
+import { formatDateRange } from '@/utils/format-date-range'
 
-import { EditTripForm } from "../edit-trip-form"
-import { HeaderSheet } from "./header-sheet"
+import { EditTripForm } from '../edit-trip-form'
+import { HeaderSheet } from './header-sheet'
 
 interface Props {
 	tripId: string
@@ -22,7 +22,7 @@ interface Props {
 export function HeaderClient({ tripId, isParticipantOwner }: Props) {
 	const [isEditTripModalOpen, setIsEditTripModalOpen] = useState(false)
 	const { data } = useGetTrip({ tripId })
-	const isDesktop = useMediaQuery("(min-width: 768px)")
+	const isDesktop = useMediaQuery('(min-width: 768px)')
 
 	const { setCurrentTrip } = useCurrentTripStore((state) => ({
 		setCurrentTrip: state.setCurrentTrip
@@ -73,7 +73,7 @@ export function HeaderClient({ tripId, isParticipantOwner }: Props) {
 							open={isEditTripModalOpen}
 							onChangeOpen={setIsEditTripModalOpen}
 						>
-							<Button variant={"secondary"}>
+							<Button variant={'secondary'}>
 								<p className="hidden md:block">Alterar local/data</p>
 								<Settings2 className="size-5" />
 							</Button>

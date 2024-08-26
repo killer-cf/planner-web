@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { AtSign, Plus } from "lucide-react"
-import type { FormEvent } from "react"
+import { AtSign, Plus } from 'lucide-react'
+import type { FormEvent } from 'react'
 
-import { Button } from "@/components/ui/button"
-import { useTripStore } from "@/stores/trip"
+import { Button } from '@/components/ui/button'
+import { useTripStore } from '@/stores/trip'
 
 export function GuestsForm() {
 	const { setEmailsToInvite, emailsToInvite } = useTripStore((state) => ({
@@ -16,7 +16,7 @@ export function GuestsForm() {
 		event.preventDefault()
 
 		const data = new FormData(event.currentTarget)
-		const email = data.get("email")?.toString()
+		const email = data.get('email')?.toString()
 
 		if (!email) {
 			return

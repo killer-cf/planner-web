@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create } from 'zustand'
 
 export interface CreateTripState {
 	destination: string
@@ -17,11 +17,11 @@ export interface CreateTripState {
 }
 
 export const useTripStore = create<CreateTripState>((set) => ({
-	destination: "",
+	destination: '',
 	startsAt: new Date(),
 	endsAt: new Date(),
-	ownerName: "",
-	ownerEmail: "",
+	ownerName: '',
+	ownerEmail: '',
 	emailsToInvite: [],
 
 	setDestinationAndDates: ({ destination, startsAt, endsAt }) =>

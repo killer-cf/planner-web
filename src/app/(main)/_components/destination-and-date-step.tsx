@@ -1,15 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowRight, MapPin, Settings2 } from "lucide-react"
-import { Controller, useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowRight, MapPin, Settings2 } from 'lucide-react'
+import { Controller, useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { Button } from "@/components/ui/button"
-import { useTripStore } from "@/stores/trip"
+import { Button } from '@/components/ui/button'
+import { useTripStore } from '@/stores/trip'
 
-import { DatePickerWithRange } from "./date-range-picker"
+import { DatePickerWithRange } from './date-range-picker'
 
 const destinationAndDateStepSchema = z.object({
-	destination: z.string().min(3, { message: "Mínimo de 3 caracteres" }),
+	destination: z.string().min(3, { message: 'Mínimo de 3 caracteres' }),
 	dateRange: z.object({
 		from: z.date(),
 		to: z.date()
@@ -37,7 +37,7 @@ export function DestinationAndDateStep({
 		useForm<DestinationAndDateStepData>({
 			resolver: zodResolver(destinationAndDateStepSchema),
 			defaultValues: {
-				destination: destination ?? "",
+				destination: destination ?? '',
 				dateRange: {
 					from: startsAt,
 					to: endsAt
@@ -64,7 +64,7 @@ export function DestinationAndDateStep({
 				<div className="flex items-center gap-2 flex-1">
 					<MapPin className="size-5 text-zinc-400" />
 					<input
-						{...register("destination")}
+						{...register('destination')}
 						type="text"
 						disabled={isGuestsInputOpen}
 						placeholder="Para onde você vai?"
@@ -87,7 +87,7 @@ export function DestinationAndDateStep({
 				<div className="w-px h-6 bg-zinc-800 md:block hidden" />
 
 				{isGuestsInputOpen ? (
-					<Button type="submit" variant={"secondary"}>
+					<Button type="submit" variant={'secondary'}>
 						Alterar local/data
 						<Settings2 className="size-5" />
 					</Button>

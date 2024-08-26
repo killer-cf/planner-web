@@ -1,6 +1,6 @@
-import { create } from "zustand"
+import { create } from 'zustand'
 
-import type { Trip } from "@/dtos/trip"
+import type { Trip } from '@/dtos/trip'
 
 export interface CreateTripState {
 	trip: Trip

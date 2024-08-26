@@ -1,9 +1,9 @@
-"use server"
+'use server'
 
-import { z } from "zod"
+import { z } from 'zod'
 
-import { api } from "@/lib/api"
-import { authActionClient } from "@/lib/safe-action"
+import { api } from '@/lib/api'
+import { authActionClient } from '@/lib/safe-action'
 
 const deleteTripActivitySchema = z.object({
 	activityId: z.string()

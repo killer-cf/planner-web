@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { createLink } from "@/actions/create-link"
-import { deleteLink } from "@/actions/delete-links"
-import { listTripLinks } from "@/actions/list-trip-links"
-import type { ListTripLinksResponse } from "@/dtos/link"
+import { createLink } from '@/actions/create-link'
+import { deleteLink } from '@/actions/delete-links'
+import { listTripLinks } from '@/actions/list-trip-links'
+import type { ListTripLinksResponse } from '@/dtos/link'
 
 interface UseListLinksProps {
 	tripId: string
@@ -11,7 +11,7 @@ interface UseListLinksProps {
 
 export function useListLinks({ tripId }: UseListLinksProps) {
 	return useQuery({
-		queryKey: ["trip-important-links", tripId],
+		queryKey: ['trip-important-links', tripId],
 		queryFn: () => listTripLinks({ tripId })
 	})
 }
@@ -25,7 +25,7 @@ export const useCreateLink = () => {
 				const linkId = response.data.linkId
 
 				return queryClient.setQueryData(
-					["trip-important-links", variables.tripId],
+					['trip-important-links', variables.tripId],
 					(data: {
 						data: ListTripLinksResponse
 					}): { data: ListTripLinksResponse } => {
@@ -64,7 +64,7 @@ export const useDeleteLink = ({ tripId }: { tripId: string }) => {
 			}
 
 			return queryClient.setQueryData(
-				["trip-important-links", tripId],
+				['trip-important-links', tripId],
 				(data: {
 					data: ListTripLinksResponse
 				}): { data: ListTripLinksResponse } => {

@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { X } from "lucide-react"
+import { X } from 'lucide-react'
 
-import { useTripStore } from "@/stores/trip"
+import { useTripStore } from '@/stores/trip'
 
 export function Guests() {
 	const { setEmailsToInvite, emailsToInvite } = useTripStore((state) => ({

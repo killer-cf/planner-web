@@ -1,10 +1,10 @@
-"use server"
+'use server'
 
-import { z } from "zod"
+import { z } from 'zod'
 
-import type { ListTripActivitiesResponse } from "@/dtos/activity"
-import { api } from "@/lib/api"
-import { authActionClient } from "@/lib/safe-action"
+import type { ListTripActivitiesResponse } from '@/dtos/activity'
+import { api } from '@/lib/api'
+import { authActionClient } from '@/lib/safe-action'
 
 const listTripActivitiesSchema = z.object({
 	tripId: z.string()

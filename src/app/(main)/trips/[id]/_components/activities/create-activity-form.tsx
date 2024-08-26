@@ -1,26 +1,26 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { parseAbsoluteToLocal } from "@internationalized/date"
-import { DateInput } from "@nextui-org/date-input"
-import { parseISO } from "date-fns"
-import { Calendar, Plus, Tag } from "lucide-react"
-import { useParams } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { parseAbsoluteToLocal } from '@internationalized/date'
+import { DateInput } from '@nextui-org/date-input'
+import { parseISO } from 'date-fns'
+import { Calendar, Plus, Tag } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { type ActivityFormData, loadActivityFormSchema } from "@/dtos/activity"
-import { useCreateActivity } from "@/hooks/activity"
-import { useCurrentTripStore } from "@/stores/current-trip"
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { type ActivityFormData, loadActivityFormSchema } from '@/dtos/activity'
+import { useCreateActivity } from '@/hooks/activity'
+import { useCurrentTripStore } from '@/stores/current-trip'
 
 interface CreateActivityModalProps {
 	closeModal: () => void
@@ -32,10 +32,10 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
 		trip: state.trip
 	}))
 	const form = useForm<ActivityFormData>({
-		mode: "onChange",
+		mode: 'onChange',
 		resolver: zodResolver(loadActivityFormSchema(trip)),
 		defaultValues: {
-			title: "",
+			title: '',
 			occursAt: parseISO(new Date().toISOString())
 		}
 	})
@@ -55,7 +55,7 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
 		})
 
 		if (result) {
-			toast.success("Atividade cadastrada com sucesso!")
+			toast.success('Atividade cadastrada com sucesso!')
 			reset()
 			closeModal()
 		}
@@ -92,7 +92,7 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
 						<FormItem>
 							<FormControl>
 								<div
-									className={`h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 ${fieldState.invalid && "border-destructive"}`}
+									className={`h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 ${fieldState.invalid && 'border-destructive'}`}
 								>
 									<DateInput
 										aria-label="Data e hora da atividade"
@@ -109,13 +109,13 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
 										hourCycle={24}
 										startContent={
 											<Calendar
-												className={`text-zinc-400 size-5 ${fieldState.invalid && "text-destructive"}`}
+												className={`text-zinc-400 size-5 ${fieldState.invalid && 'text-destructive'}`}
 											/>
 										}
 										classNames={{
-											base: "group-data-[invalid=true]:bg-transparent",
+											base: 'group-data-[invalid=true]:bg-transparent',
 											inputWrapper:
-												"bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950 group-data-[invalid=true]:bg-inherit group-data-[invalid=true]:hover:bg-inherit group-data-[invalid=true]:focus-within:hover:bg-inherit"
+												'bg-transparent text-lg placeholder-zinc-400 border-none group-hover:bg-zinc-950 group-data-[invalid=true]:bg-inherit group-data-[invalid=true]:hover:bg-inherit group-data-[invalid=true]:focus-within:hover:bg-inherit'
 										}}
 									/>
 								</div>
@@ -125,7 +125,7 @@ export function CreateActivityForm({ closeModal }: CreateActivityModalProps) {
 					)}
 				/>
 
-				<Button type="submit" size={"full"} disabled={isSubmitting || !isValid}>
+				<Button type="submit" size={'full'} disabled={isSubmitting || !isValid}>
 					<Plus className="size-5" />
 					Salvar atividade
 				</Button>

@@ -1,7 +1,7 @@
-import { isParticipantOwner } from "@/utils/is-participant-owner"
+import { isParticipantOwner } from '@/utils/is-participant-owner'
 
-import { GuestsClient } from "../_components/guests/guests-client"
-import { ImportantLinksClient } from "../_components/important-links/important-links-client"
+import { GuestsClient } from '../_components/guests/guests-client'
+import { ImportantLinksClient } from '../_components/important-links/important-links-client'
 
 interface DetailsPageProps {
 	params: {

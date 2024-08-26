@@ -1,29 +1,29 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { parseISO } from "date-fns"
-import { MapPin } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { parseISO } from 'date-fns'
+import { MapPin } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
-import { DatePickerWithRange } from "@/app/(main)/_components/date-range-picker"
-import { Button } from "@/components/ui/button"
+import { DatePickerWithRange } from '@/app/(main)/_components/date-range-picker'
+import { Button } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useUpdateTrip } from "@/hooks/trips"
-import { useCurrentTripStore } from "@/stores/current-trip"
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useUpdateTrip } from '@/hooks/trips'
+import { useCurrentTripStore } from '@/stores/current-trip'
 
 const updateTripFormSchema = z.object({
 	destination: z
 		.string()
-		.min(4, { message: "Destino deve conter no mínimo 4 caracteres" }),
+		.min(4, { message: 'Destino deve conter no mínimo 4 caracteres' }),
 	dateRange: z.object({
 		from: z.date(),
 		to: z.date()
@@ -42,7 +42,7 @@ export function EditTripForm({ closeModal }: EditTripFormProps) {
 	}))
 	const updateTrip = useUpdateTrip()
 	const form = useForm<UpdateTripFormData>({
-		mode: "onChange",
+		mode: 'onChange',
 		resolver: zodResolver(updateTripFormSchema),
 		defaultValues: {
 			destination: trip.destination,
@@ -70,7 +70,7 @@ export function EditTripForm({ closeModal }: EditTripFormProps) {
 
 		if (result?.serverError) toast.error(result.serverError)
 		else {
-			toast.success("Viagem atualizada com sucesso")
+			toast.success('Viagem atualizada com sucesso')
 			closeModal()
 		}
 	}
@@ -116,7 +116,7 @@ export function EditTripForm({ closeModal }: EditTripFormProps) {
 					)}
 				/>
 
-				<Button type="submit" disabled={isSubmitting || !isValid} size={"full"}>
+				<Button type="submit" disabled={isSubmitting || !isValid} size={'full'}>
 					Salvar alterações
 				</Button>
 			</form>

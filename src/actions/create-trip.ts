@@ -1,9 +1,9 @@
-"use server"
+'use server'
 
-import { z } from "zod"
+import { z } from 'zod'
 
-import { api } from "@/lib/api"
-import { authActionClient } from "@/lib/safe-action"
+import { api } from '@/lib/api'
+import { authActionClient } from '@/lib/safe-action'
 
 const createTripSchema = z.object({
 	ownerName: z.string(),
@@ -22,7 +22,7 @@ export const createTrip = authActionClient
 	.schema(createTripSchema)
 	.action(async ({ parsedInput: data, ctx: { token } }) => {
 		const res = await api
-			.post("api/v1/trips", {
+			.post('api/v1/trips', {
 				headers: {
 					Authorization: `Bearer ${token}`
 				},

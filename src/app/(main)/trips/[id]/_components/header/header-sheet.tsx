@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { SignOutButton, UserButton } from "@clerk/nextjs"
-import { ArrowRightFromLine, Menu } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useState } from "react"
-import { useMediaQuery } from "usehooks-ts"
+import { SignOutButton, UserButton } from '@clerk/nextjs'
+import { ArrowRightFromLine, Menu } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
-import { ModalDrawer } from "@/components/modal-drawer"
-import { Button } from "@/components/ui/button"
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
 import {
 	Sheet,
 	SheetContent,
@@ -16,11 +16,11 @@ import {
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger
-} from "@/components/ui/sheet"
-import { useListUserTrips } from "@/hooks/trips"
-import { formatDateRange } from "@/utils/format-date-range"
+} from '@/components/ui/sheet'
+import { useListUserTrips } from '@/hooks/trips'
+import { formatDateRange } from '@/utils/format-date-range'
 
-import { EditTripForm } from "../edit-trip-form"
+import { EditTripForm } from '../edit-trip-form'
 
 interface HeaderSheetProps {
 	isParticipantOwner: boolean
@@ -28,7 +28,7 @@ interface HeaderSheetProps {
 
 export function HeaderSheet({ isParticipantOwner }: HeaderSheetProps) {
 	const [isEditTripModalOpen, setIsEditTripModalOpen] = useState(false)
-	const isDesktop = useMediaQuery("(min-width: 768px)")
+	const isDesktop = useMediaQuery('(min-width: 768px)')
 	const { data: trips } = useListUserTrips({ enabled: !isDesktop })
 
 	if (isDesktop) {
@@ -42,7 +42,7 @@ export function HeaderSheet({ isParticipantOwner }: HeaderSheetProps) {
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<Button variant="secondary" className="md:hidden" size={"icon2"}>
+				<Button variant="secondary" className="md:hidden" size={'icon2'}>
 					<Menu className="size-5" />
 				</Button>
 			</SheetTrigger>
@@ -72,7 +72,7 @@ export function HeaderSheet({ isParticipantOwner }: HeaderSheetProps) {
 								>
 									<span className="text-zinc-400 underline ">
 										{trip.destination}
-										{" -> "}
+										{' -> '}
 										{formatDateRange(trip.starts_at, trip.ends_at, true)}
 									</span>
 								</Link>
@@ -88,7 +88,7 @@ export function HeaderSheet({ isParticipantOwner }: HeaderSheetProps) {
 								onChangeOpen={setIsEditTripModalOpen}
 								content={<EditTripForm closeModal={closeModal} />}
 							>
-								<Button className="px-0 text-left self-start" variant={"ghost"}>
+								<Button className="px-0 text-left self-start" variant={'ghost'}>
 									<p>Editar viagem atual</p>
 								</Button>
 							</ModalDrawer>
@@ -97,7 +97,7 @@ export function HeaderSheet({ isParticipantOwner }: HeaderSheetProps) {
 						<div className="flex gap-3">
 							<UserButton />
 							<SignOutButton>
-								<Button size={"sm"} variant={"outline"}>
+								<Button size={'sm'} variant={'outline'}>
 									<p className="text-destructive">Sair</p>
 									<ArrowRightFromLine className="size-5 text-destructive" />
 								</Button>

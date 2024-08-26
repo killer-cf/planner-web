@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import type { Dispatch, ReactNode, SetStateAction } from "react"
-import { useMediaQuery } from "usehooks-ts"
+import type { Dispatch, ReactNode, SetStateAction } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
 import {
 	Dialog,
@@ -10,7 +10,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import {
 	Drawer,
 	DrawerContent,
@@ -18,7 +18,7 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger
-} from "@/components/ui/drawer"
+} from '@/components/ui/drawer'
 
 interface ModalDrawerProps {
 	title: string
@@ -37,7 +37,7 @@ export function ModalDrawer({
 	open,
 	onChangeOpen
 }: ModalDrawerProps) {
-	const isDesktop = useMediaQuery("(min-width: 768px)")
+	const isDesktop = useMediaQuery('(min-width: 768px)')
 
 	if (isDesktop) {
 		return (

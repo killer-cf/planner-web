@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { format, parseISO } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { format, parseISO } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
-import { useListActivities } from "@/hooks/activity"
-import { capitalize } from "@/utils/capitalize"
+import { useListActivities } from '@/hooks/activity'
+import { capitalize } from '@/utils/capitalize'
 
-import { Activity } from "./activity"
+import { Activity } from './activity'
 
 interface ActivitiesClientProps {
 	tripId: string
@@ -23,14 +23,14 @@ export function ActivitiesClient({ tripId }: ActivitiesClientProps) {
 				<div className="space-y-2.5" key={activitiesGroup.date}>
 					<div className="flex gap-2 items-baseline">
 						<span className="text-xl text-zinc-300 font-semibold">
-							Dia{" "}
+							Dia{' '}
 							{format(parseISO(activitiesGroup.date), "dd 'de' LLLL", {
 								locale: ptBR
 							})}
 						</span>
 						<span className="text-xs text-zinc-500">
 							{capitalize(
-								format(parseISO(activitiesGroup.date), "EEEE", {
+								format(parseISO(activitiesGroup.date), 'EEEE', {
 									locale: ptBR
 								})
 							)}

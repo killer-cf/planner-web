@@ -1,22 +1,22 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Mail, Navigation } from "lucide-react"
-import { useParams } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Mail, Navigation } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useInviteParticipant } from "@/hooks/guests"
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useInviteParticipant } from '@/hooks/guests'
 
 const newGuestFormSchema = z.object({
 	email: z.string().email()
@@ -51,7 +51,7 @@ export function GuestsForm({ closeModal }: CreateGuestFormProps) {
 		if (result?.serverError) toast.error(result.serverError)
 		if (result?.data) {
 			closeModal()
-			toast.success("Participante convidado!")
+			toast.success('Participante convidado!')
 			reset()
 		}
 	}
@@ -80,7 +80,7 @@ export function GuestsForm({ closeModal }: CreateGuestFormProps) {
 					)}
 				/>
 
-				<Button type="submit" size={"full"} disabled={isSubmitting}>
+				<Button type="submit" size={'full'} disabled={isSubmitting}>
 					<Navigation className="size-5" />
 					Enviar Convite
 				</Button>

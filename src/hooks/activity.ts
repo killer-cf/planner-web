@@ -2,12 +2,12 @@ import {
 	useMutation,
 	useQueryClient,
 	useSuspenseQuery
-} from "@tanstack/react-query"
+} from '@tanstack/react-query'
 
-import { createTripActivity } from "@/actions/create-activity"
-import { deleteTripActivity } from "@/actions/delete-activity"
-import { listTripActivities } from "@/actions/list-trip-activities"
-import { updateTripActivity } from "@/actions/update-activity"
+import { createTripActivity } from '@/actions/create-activity'
+import { deleteTripActivity } from '@/actions/delete-activity'
+import { listTripActivities } from '@/actions/list-trip-activities'
+import { updateTripActivity } from '@/actions/update-activity'
 
 interface UseListActivitiesProps {
 	tripId: string
@@ -15,7 +15,7 @@ interface UseListActivitiesProps {
 
 export function useListActivities({ tripId }: UseListActivitiesProps) {
 	return useSuspenseQuery({
-		queryKey: ["trip-activities", tripId],
+		queryKey: ['trip-activities', tripId],
 		queryFn: () => listTripActivities({ tripId })
 	})
 }
@@ -26,7 +26,7 @@ export const useCreateActivity = () => {
 		mutationFn: createTripActivity,
 		onSuccess(response, variables) {
 			queryClient.invalidateQueries({
-				queryKey: ["trip-activities", variables.tripId]
+				queryKey: ['trip-activities', variables.tripId]
 			})
 		}
 	})
@@ -38,7 +38,7 @@ export const useUpdateActivity = () => {
 		mutationFn: updateTripActivity,
 		onSuccess() {
 			queryClient.invalidateQueries({
-				queryKey: ["trip-activities"]
+				queryKey: ['trip-activities']
 			})
 		}
 	})
@@ -50,7 +50,7 @@ export const useDeleteActivity = () => {
 		mutationFn: deleteTripActivity,
 		onSuccess() {
 			queryClient.invalidateQueries({
-				queryKey: ["trip-activities"]
+				queryKey: ['trip-activities']
 			})
 		}
 	})

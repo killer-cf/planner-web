@@ -1,28 +1,28 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Link2, Plus, Tag } from "lucide-react"
-import { useParams } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Link2, Plus, Tag } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useCreateLink } from "@/hooks/links"
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useCreateLink } from '@/hooks/links'
 
 const createLinkFormSchema = z.object({
 	title: z
 		.string()
-		.min(4, { message: "O título deve ter no mínimo 4 caracteres" }),
-	url: z.string().url({ message: "URL inválida" })
+		.min(4, { message: 'O título deve ter no mínimo 4 caracteres' }),
+	url: z.string().url({ message: 'URL inválida' })
 })
 
 type CreateLinkFormData = z.infer<typeof createLinkFormSchema>
@@ -35,7 +35,7 @@ export function CreateLinkForm({ closeModal }: CreateLinkFormProps) {
 	const params = useParams<{ id: string }>()
 	const createLink = useCreateLink()
 	const form = useForm<CreateLinkFormData>({
-		mode: "onChange",
+		mode: 'onChange',
 		resolver: zodResolver(createLinkFormSchema)
 	})
 
@@ -55,7 +55,7 @@ export function CreateLinkForm({ closeModal }: CreateLinkFormProps) {
 		if (result?.serverError) toast.error(result.serverError)
 		if (result?.data) {
 			closeModal()
-			toast.success("Link adicionado com sucesso!")
+			toast.success('Link adicionado com sucesso!')
 			reset()
 		}
 	}
@@ -99,7 +99,7 @@ export function CreateLinkForm({ closeModal }: CreateLinkFormProps) {
 					)}
 				/>
 
-				<Button type="submit" size={"full"} disabled={isSubmitting || !isValid}>
+				<Button type="submit" size={'full'} disabled={isSubmitting || !isValid}>
 					<Plus className="size-5" />
 					Adicionar link
 				</Button>

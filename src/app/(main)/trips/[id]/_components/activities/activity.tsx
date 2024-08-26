@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { format } from "date-fns"
-import { CircleCheck, Ellipsis } from "lucide-react"
-import { useState } from "react"
+import { format } from 'date-fns'
+import { CircleCheck, Ellipsis } from 'lucide-react'
+import { useState } from 'react'
 
-import { ModalDrawer } from "@/components/modal-drawer"
-import { Button } from "@/components/ui/button"
-import type { Activity as ActivityDto } from "@/dtos/activity"
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
+import type { Activity as ActivityDto } from '@/dtos/activity'
 
-import { EditActivityModal } from "./edit-activity-form"
+import { EditActivityModal } from './edit-activity-form'
 
 interface ActivityProps {
 	activity: ActivityDto
@@ -39,7 +39,7 @@ export function Activity({ activity }: ActivityProps) {
 						<EditActivityModal activity={activity} closeModal={closeModal} />
 					}
 				>
-					<Button variant={"transparent"} size={"icon2"}>
+					<Button variant={'transparent'} size={'icon2'}>
 						<Ellipsis className="size-4" />
 					</Button>
 				</ModalDrawer>

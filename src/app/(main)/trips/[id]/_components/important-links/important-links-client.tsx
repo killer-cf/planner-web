@@ -1,16 +1,16 @@
-"use client"
+'use client'
 
-import { Plus, Trash } from "lucide-react"
-import Link from "next/link"
-import { useState } from "react"
-import { toast } from "sonner"
+import { Plus, Trash } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
-import { ModalDrawer } from "@/components/modal-drawer"
-import { Button } from "@/components/ui/button"
-import { useDeleteLink, useListLinks } from "@/hooks/links"
+import { ModalDrawer } from '@/components/modal-drawer'
+import { Button } from '@/components/ui/button'
+import { useDeleteLink, useListLinks } from '@/hooks/links'
 
-import { CreateLinkForm } from "./create-link-form"
-import { ImportantLinksSkeleton } from "./important-links-skeleton"
+import { CreateLinkForm } from './create-link-form'
+import { ImportantLinksSkeleton } from './important-links-skeleton'
 
 interface ImportantLinksProps {
 	tripId: string
@@ -33,7 +33,7 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
 		const result = await deleteLink.mutateAsync({ linkId: id })
 
 		if (!result?.serverError) {
-			toast.success("Link deletado com sucesso!")
+			toast.success('Link deletado com sucesso!')
 		}
 
 		if (result?.serverError) {
@@ -63,8 +63,8 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
 							</Link>
 						</div>
 						<Button
-							variant={"ghost"}
-							size={"icon2"}
+							variant={'ghost'}
+							size={'icon2'}
 							className="shrink-0"
 							onClick={() => handleDeleteLink(link.id)}
 							disabled={deleteLink.isPending}
@@ -82,7 +82,7 @@ export function ImportantLinksClient({ tripId }: ImportantLinksProps) {
 				onChangeOpen={setIsModalOpen}
 				content={<CreateLinkForm closeModal={closeModal} />}
 			>
-				<Button variant={"secondary"} size={"full"}>
+				<Button variant={'secondary'} size={'full'}>
 					<Plus className="size-5" />
 					Cadastrar novo link
 				</Button>
