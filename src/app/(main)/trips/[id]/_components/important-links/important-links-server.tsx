@@ -1,24 +1,24 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
-import { listTripLinks } from '@/actions/list-trip-links'
-import { getQueryClient } from '@/lib/get-query-client'
+import { listTripLinks } from "@/actions/list-trip-links"
+import { getQueryClient } from "@/lib/get-query-client"
 
-import { ImportantLinksClient } from './important-links-client'
+import { ImportantLinksClient } from "./important-links-client"
 
 interface ImportantLinksProps {
-  tripId: string
+	tripId: string
 }
 
 export async function ImportantLinksServer({ tripId }: ImportantLinksProps) {
-  const queryClient = getQueryClient()
-  queryClient.prefetchQuery({
-    queryKey: ['trip-important-links', tripId],
-    queryFn: async () => listTripLinks({ tripId }),
-  })
+	const queryClient = getQueryClient()
+	queryClient.prefetchQuery({
+		queryKey: ["trip-important-links", tripId],
+		queryFn: async () => listTripLinks({ tripId })
+	})
 
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <ImportantLinksClient tripId={tripId} />
-    </HydrationBoundary>
-  )
+	return (
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<ImportantLinksClient tripId={tripId} />
+		</HydrationBoundary>
+	)
 }

@@ -1,14 +1,14 @@
-import { create } from 'zustand'
+import { create } from "zustand"
 
-import { Trip } from '@/dtos/trip'
+import type { Trip } from "@/dtos/trip"
 
 export interface CreateTripState {
-  trip: Trip
-  setCurrentTrip: (data: Trip) => void
+	trip: Trip
+	setCurrentTrip: (data: Trip) => void
 }
 
 export const useCurrentTripStore = create<CreateTripState>((set) => ({
-  trip: {} as Trip,
+	trip: {} as Trip,
 
-  setCurrentTrip: (trip) => set({ trip }),
+	setCurrentTrip: (trip) => set({ trip })
 }))
